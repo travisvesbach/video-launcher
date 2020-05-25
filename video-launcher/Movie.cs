@@ -4,14 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Xml;
 
 namespace video_launcher
 {
     public class Movie
     {
         // directory class
-        public DirectoryInfo directory { get; set; }
+        public DirectoryInfo MovieDirectory { get; set; }
 
         public string Name { get; set; }
         public string Video_type { get; set; }
@@ -19,25 +22,35 @@ namespace video_launcher
         //files in directory
         public string File_video { get; set; }
         public string File_nfo { get; set; }
-        public string Img_banner { get; set; }
-        public string Img_clearart { get; set; }
-        public string Img_clearlogo { get; set; }
-        public string Img_disc { get; set; }
-        public string Img_fanart { get; set; }
-        public string Img_keyart { get; set; }
-        public string Img_logo { get; set; }
         public BitmapImage Img_poster { get; set; }
         public string Img_thumb { get; set; }
         public List<string> Subtitles = new List<string>();
+        private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
+
+        //from nfo file
+        public string Title { get; set; }
+        public string OriginalTitle { get; set; }
+        public string Year { get; set; }
+        public string Plot { get; set; }
+        public string Tagline { get; set; }
+        public string Runtime { get; set; }
+        public List<string> Genre { get; set; }
+        public string Trailer { get; set; }
+
+
+        private ICommand _showDetails;
 
 
         public Movie(DirectoryInfo dir)
         {
-            directory = dir;
-            Name = directory.Name;
+            MovieDirectory = dir;
+            Name = MovieDirectory.Name;
             ProcessDirectory();
             Console.WriteLine(Name);
-            Console.WriteLine(Img_poster);
+            if (File_nfo != null)
+            {
+                ReadNFO();
+            }
         }
 
         // Process all files in the directory passed in, recurse on any directories
@@ -45,7 +58,7 @@ namespace video_launcher
         public void ProcessDirectory()
         {
             // Process the list of files found in the directory.
-            string[] fileEntries = Directory.GetFiles(directory.FullName);
+            string[] fileEntries = Directory.GetFiles(MovieDirectory.FullName);
             foreach (string fileName in fileEntries)
             {
                 ProcessFile(fileName);
@@ -84,32 +97,8 @@ namespace video_launcher
             string fileName = Path.GetFileNameWithoutExtension(path);
             switch (fileName)
             {
-                case "banner":
-                    Img_banner = path;
-                    break;
-                case "clearart":
-                    Img_clearart = path;
-                    break;
-                case "clearlogo":
-                    Img_clearlogo = path;
-                    break;
-                case "disc":
-                    Img_disc = path;
-                    break;
-                case "fanart":
-                    Img_fanart = path;
-                    break;
-                case "keyart":
-                    Img_keyart = path;
-                    break;
-                case "logo":
-                    Img_logo = path;
-                    break;
                 case "poster":
                     Img_poster = new BitmapImage(new Uri(path, UriKind.Absolute));
-                    Img_poster.DecodePixelWidth = 100;
-                    Img_poster.DecodePixelHeight = 100;
-                    Img_poster.Freeze();
                     break;
                 case "thumb":
                     Img_thumb = path;
@@ -130,6 +119,74 @@ namespace video_launcher
                 Subtitles.Add("Japanese");
             }
         }
+
+
+        // commands
+        public bool CanExecute
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public ICommand ShowDetails
+        {
+            get
+            {
+                return _showDetails ?? (_showDetails = new CommandHandler(() => ShowMovie(), () => CanExecute));
+            }
+        }
+
+        public void ShowMovie()
+        {
+            wnd.ShowMovie(this);
+
+        }
+
+        public void ReadNFO()
+        {
+            XmlDocument nfo = new XmlDocument();
+            nfo.Load(File_nfo);
+
+            foreach (XmlNode node in nfo.DocumentElement.ChildNodes)
+            {
+                string text = node.InnerText; //or loop through its children as well
+                switch (node.Name)
+                {
+                    case "title":
+                        Title = node.InnerText;
+                        break;
+                    case "originaltitle":
+                        OriginalTitle = node.InnerText;
+                        break;
+                    case "year":
+                        Year = node.InnerText;
+                        break;
+                    case "plot":
+                        Plot = node.InnerText;
+                        break;
+                    case "tagline":
+                        Tagline = node.InnerText;
+                        break;
+                    case "runtime":
+                        Runtime = node.InnerText;
+                        break;
+                    case "genre":
+                        if (Genre == null)
+                        {
+                            Genre = new List<string>();
+                        }
+                        Genre.Add(node.InnerText);
+                        break;
+                    case "trailer":
+                        Trailer = node.InnerText;
+                        break;
+                }
+            }
+
+
+    }
 
     }
 }

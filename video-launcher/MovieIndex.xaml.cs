@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,41 +14,48 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections.ObjectModel;
-using System.IO;
 
 namespace video_launcher
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MovieIndex.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MovieIndex : Page
     {
-        public string movieDirectory = "";
         public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
-        public Movie MovieToShow = null;
 
-        public MainWindow()
+        public Movie MovieDetails = null;
+
+        private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
+
+
+        public MovieIndex()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            ProcessDirectory(movieDirectory);
+            movies = wnd.movies;
 
-            this.Loaded += MainWindow_Loaded;
+            DataContext = this;
+
+            //var container = icMovies.ItemContainerGenerator.ContainerFromItem(icMovies.SelectedItem) as FrameworkElement;
+            //if (container != null)
+                //container.BringIntoView();
+
+            if (wnd.MovieToShow != null)
+            {
+                lbMovies.ScrollIntoView(wnd.MovieToShow);
+            }
+
+
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+
+        public ObservableCollection<Movie> Movies
         {
-            NavigationFrame.NavigationService.Navigate(new Uri("Home.xaml", UriKind.Relative));
+            get { return movies; }
         }
 
-        public void ShowMovie(Movie movie)
-        {
-            Console.WriteLine("showing " + movie.Name);
-            MovieToShow = movie;
-            NavigationFrame.NavigationService.Navigate(new Uri("MovieDetails.xaml", UriKind.Relative));
-        }
-
+        
         public void ProcessDirectory(string targetDirectory)
         {
             // Recurse into subdirectories of this directory.
@@ -58,5 +67,4 @@ namespace video_launcher
 
         }
     }
-
 }

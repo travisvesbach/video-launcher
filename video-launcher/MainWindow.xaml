@@ -5,50 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:video_launcher"
         mc:Ignorable="d"
-        Title="Video Launcher" Height="350" Width="525" Background="Indigo" Foreground="White">
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Left" Margin="10">
-            <TextBlock FontSize="22">sidebar content here</TextBlock>
-            <TextBlock FontSize="22">> Anime</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="22">> Movies</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="22">> TV Shows</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-        </StackPanel>
-        <Border BorderBrush="Black" BorderThickness="3" Margin="10,10,10,10">
-            <ScrollViewer>
-                <ItemsControl ItemsSource="{Binding Movies}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Width="185" Height="278" LastChildFill="False" Margin="15">
-                                <DockPanel.Background>
-                                    <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
-                                </DockPanel.Background>
-                                <TextBlock DockPanel.Dock="Bottom" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
-                                    <TextBlock.Background>
-                                        <SolidColorBrush Color="Black" Opacity="0.7" />
-                                    </TextBlock.Background>
-                                </TextBlock>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Border>
-    </DockPanel>
+        Title="Video Launcher" Background="Indigo" Foreground="White">
+    <Grid Name="MainGrid">
+        <Frame Name="NavigationFrame" Grid.Column="0" NavigationUIVisibility="Hidden" />
+    </Grid>
 </Window>

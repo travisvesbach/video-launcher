@@ -1,0 +1,61 @@
+﻿<Page x:Class="video_launcher.MovieIndex"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:video_launcher"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="MovieIndex" Background="Indigo" Foreground="White">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" Margin="10">
+            <TextBlock FontSize="22">sidebar content here</TextBlock>
+            <TextBlock FontSize="22">> <Hyperlink NavigateUri="Home.xaml">Home</Hyperlink></TextBlock>
+            <TextBlock FontSize="22">> Anime</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="22">> Movies</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="22">> TV Shows</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+            <TextBlock FontSize="18">----> Genre</TextBlock>
+        </StackPanel>
+        <Border BorderBrush="Black" BorderThickness="3" Margin="10,10,10,10">
+            <ListBox Name="lbMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Indigo">
+                <ListBox.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                </ListBox.Resources>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding ShowDetails}" Width="185" Height="278" Margin="15" Foreground="White" BorderThickness="0">
+                            <DockPanel Width="185" Height="278" LastChildFill="False">
+                                <DockPanel.Background>
+                                    <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
+                                </DockPanel.Background>
+                                <TextBlock DockPanel.Dock="Bottom" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
+                                    <TextBlock.Background>
+                                        <SolidColorBrush Color="Black" Opacity="0.7" />
+                                    </TextBlock.Background>
+                                </TextBlock>
+                            </DockPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+    </DockPanel>
+</Page>

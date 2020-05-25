@@ -13,3 +13,9 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj.CoreCompileInputs.cache
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.exe
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.pdb
+D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieIndex.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieIndex.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\Home.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\Home.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieDetails.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieDetails.baml

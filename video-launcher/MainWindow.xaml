@@ -5,7 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:video_launcher"
         mc:Ignorable="d"
-        Title="Video Launcher" Background="Indigo" Foreground="White">
+        Title="Video Launcher" Foreground="White">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.1" Color="#330242" />
+                            <GradientStop Offset="1" Color="#200d26" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Name="MainGrid">
         <Frame Name="NavigationFrame" Grid.Column="0" NavigationUIVisibility="Hidden" />
     </Grid>

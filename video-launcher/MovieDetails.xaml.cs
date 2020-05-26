@@ -33,8 +33,6 @@ namespace video_launcher
 
             movieToShow = wnd.MovieToShow;
 
-            Console.WriteLine(movieToShow.Name);
-
             if (movieToShow.Img_thumb != null)
             {
                 thumb = new BitmapImage(new Uri(movieToShow.Img_thumb, UriKind.Absolute));
@@ -74,6 +72,16 @@ namespace video_launcher
         private void OpenTrailer(object sender, RoutedEventArgs e)
         {
             OpenUri(movieToShow.Trailer);
+        }
+
+        private void PlayVideo(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@MovieData.File_video);
+        }
+
+        private void ClickMovieIndex(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("MovieIndex.xaml", UriKind.Relative));
         }
     }
 }

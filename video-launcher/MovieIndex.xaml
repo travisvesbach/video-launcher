@@ -6,10 +6,51 @@
       xmlns:local="clr-namespace:video_launcher"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="MovieIndex" Background="Indigo" Foreground="White">
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Left" Margin="10">
-            <TextBlock FontSize="22">sidebar content here</TextBlock>
+      Title="MovieIndex" Foreground="White">
+
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.02" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.02" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MaxWidth="200" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10">
+            <TextBlock FontSize="22">sidebar</TextBlock>
             <TextBlock FontSize="22">> <Hyperlink NavigateUri="Home.xaml">Home</Hyperlink></TextBlock>
             <TextBlock FontSize="22">> Anime</TextBlock>
             <TextBlock FontSize="18">----> Genre</TextBlock>
@@ -27,13 +68,26 @@
             <TextBlock FontSize="18">----> Genre</TextBlock>
             <TextBlock FontSize="18">----> Genre</TextBlock>
         </StackPanel>
-        <Border BorderBrush="Black" BorderThickness="3" Margin="10,10,10,10">
-            <ListBox Name="lbMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Indigo">
-                <ListBox.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                </ListBox.Resources>
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="SlateGray" />
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="50" TextAlignment="Center">Showing All Movies</TextBlock>
+            <ListBox Grid.Row="1" Name="lbMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,0,0,0">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Focusable" Value="False"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel HorizontalAlignment="Center" />
@@ -41,8 +95,8 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Command="{Binding ShowDetails}" Width="185" Height="278" Margin="15" Foreground="White" BorderThickness="0">
-                            <DockPanel Width="185" Height="278" LastChildFill="False">
+                        <Button Command="{Binding ShowDetails}" Margin="5" Foreground="White" BorderThickness="0">
+                            <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
                                 <DockPanel.Background>
                                     <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
                                 </DockPanel.Background>
@@ -56,6 +110,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Border>
-    </DockPanel>
+        </Grid>
+    </Grid>
 </Page>

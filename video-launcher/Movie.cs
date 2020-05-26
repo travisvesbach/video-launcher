@@ -34,8 +34,15 @@ namespace video_launcher
         public string Plot { get; set; }
         public string Tagline { get; set; }
         public string Runtime { get; set; }
-        public List<string> Genre { get; set; }
         public string Trailer { get; set; }
+        public string Director { get; set; }
+        public string Country { get; set; }
+        public string Studio { get; set; }
+        public string Set { get; set; }
+        public List<string> Genre { get; set; }
+        public string GenreString { get; set; }
+        public List<string> Tags { get; set; }
+        public string TagString { get; set; }
 
 
         private ICommand _showDetails;
@@ -50,6 +57,14 @@ namespace video_launcher
             if (File_nfo != null)
             {
                 ReadNFO();
+                if (Genre != null)
+                {
+                    GenreString = string.Join(" / ", Genre);
+                }
+                if (Tags != null)
+                {
+                    TagString = string.Join(" / ", Tags);
+                }
             }
         }
 
@@ -172,6 +187,9 @@ namespace video_launcher
                     case "runtime":
                         Runtime = node.InnerText;
                         break;
+                    case "trailer":
+                        Trailer = node.InnerText;
+                        break;
                     case "genre":
                         if (Genre == null)
                         {
@@ -179,14 +197,29 @@ namespace video_launcher
                         }
                         Genre.Add(node.InnerText);
                         break;
-                    case "trailer":
-                        Trailer = node.InnerText;
+                    case "tag":
+                        if (Tags == null)
+                        {
+                            Tags = new List<string>();
+                        }
+                        Tags.Add(node.InnerText);
+                        break;
+                    case "director":
+                        Director = node.InnerText;
+                        break;
+                    case "set":
+                        Set = node.InnerText;
+                        break;
+                    case "country":
+                        Country = node.InnerText;
+                        break;
+                    case "studio":
+                        Studio = node.InnerText;
                         break;
                 }
             }
 
-
-    }
+        }
 
     }
 }

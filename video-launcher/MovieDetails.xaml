@@ -6,22 +6,144 @@
       xmlns:local="clr-namespace:video_launcher"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="MovieDetails" Background="Indigo" Foreground="White">
+      Title="MovieDetails" Foreground="White">
 
-    <DockPanel>
-        <DockPanel.Background>
-            <ImageBrush ImageSource="{Binding Thumb}" Stretch="Fill" />
-        </DockPanel.Background>
-        <DockPanel>
-            <DockPanel.Background>
-                <SolidColorBrush Color="Black" Opacity=".80"/>
-            </DockPanel.Background>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding MovieData.Title}" FontSize="46" TextAlignment="Center"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding MovieData.Year}" FontSize="36" TextAlignment="Center"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding MovieData.Tagline}" FontSize="36" TextAlignment="Center"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding MovieData.Plot}" FontSize="36" TextAlignment="Center" TextWrapping="Wrap"/>
-            <Button DockPanel.Dock="Top" FontSize="36" Width="Auto" Click="OpenTrailer">Trailer</Button>
-            
-        </DockPanel>
-    </DockPanel>
+    <Page.Resources>
+        <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#69008a"/>
+            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="15,5" Margin="10" Width="120" Height="80">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Page.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding Thumb}" Stretch="UniformToFill" />
+        </Grid.Background>
+        <Grid>
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.45"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Canvas>
+                <Button Canvas.Top="10" Canvas.Left="10" Click="ClickMovieIndex">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="/images/projector_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
+                    </Grid>
+                </Button>
+            </Canvas>
+            <TextBlock FontSize="50" TextAlignment="Center" Margin="300,0" TextWrapping="Wrap" FontWeight="Bold">
+                <Run Text="{Binding MovieData.Title}"/> (<Run Text="{Binding MovieData.Year}"/>)
+            </TextBlock>
+
+            <TextBlock Grid.Row="1" Text="{Binding MovieData.OriginalTitle}" Margin="300,0" FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.OriginalTitle, Converter={StaticResource StringToVisibilityConverter}}"/>
+            <TextBlock Grid.Row="2" Text="{Binding MovieData.Tagline}" Margin="300,0" TextWrapping="Wrap"  FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.Tagline, Converter={StaticResource StringToVisibilityConverter}}"/>
+
+            <Grid Grid.Row="3" Margin="0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding MovieData.Img_poster}" Margin="15,0,0,0"/>
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding MovieData.Plot}" FontSize="20" TextWrapping="Wrap" Margin="15,0" Padding="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.6"/>
+                    </TextBlock.Background>
+                </TextBlock>
+                <ItemsControl Grid.Column="3" Grid.ColumnSpan="2" FontSize="16" Margin="15,0" Padding="10">
+                    <ItemsControl.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.6"/>
+                    </ItemsControl.Background>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.Director, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Director:"/> <Run Text="{Binding MovieData.Director}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.Country, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Country:"/> <Run Text="{Binding MovieData.Country}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.Studio, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Studio:"/> <Run Text="{Binding MovieData.Studio}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.GenreString, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Genre:"/> <Run Text="{Binding MovieData.GenreString}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.Set, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Set:"/> <Run Text="{Binding MovieData.Set}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.Runtime, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Runtime:"/> <Run Text="{Binding MovieData.Runtime}"/> minutes
+                    </TextBlock>
+                        
+                </ItemsControl>
+            </Grid>
+            <WrapPanel Grid.Row="4" Margin="15">
+                <Button Click="PlayVideo">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="/images/play_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <TextBlock Grid.Row="1" TextAlignment="Center">Play</TextBlock>
+                    </Grid>
+                </Button>
+                <Button Click="OpenTrailer" Visibility="{Binding MovieData.Trailer, Converter={StaticResource StringToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="/images/filmstrip_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <TextBlock Grid.Row="1" TextAlignment="Center">Trailer</TextBlock>
+                    </Grid>
+                </Button>
+            </WrapPanel>
+        </Grid>
+    </Grid>
 </Page>

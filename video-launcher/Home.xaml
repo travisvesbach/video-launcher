@@ -8,9 +8,81 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Home">
 
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#69008a"/>
+            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="10,5" Margin="20,0" MaxWidth="400">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    
+
     <Grid>
-        <Button Click="ClickMovieIndex">
-            Movies
-        </Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Columns="3" Grid.Row="1" HorizontalAlignment="Center">
+            <Button Click="ClickMovieIndex">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/images/tv_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                    <TextBlock Grid.Row="1" TextAlignment="Center">Anime</TextBlock>
+                </Grid>
+            </Button>
+            <Button Click="ClickMovieIndex">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/images/projector_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                    <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
+                </Grid>
+            </Button>
+            <Button Click="ClickMovieIndex">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/images/tv_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                    <TextBlock Grid.Row="1" TextAlignment="Center">TV Shows</TextBlock>
+                </Grid>
+            </Button>
+        </UniformGrid>
     </Grid>
 </Page>

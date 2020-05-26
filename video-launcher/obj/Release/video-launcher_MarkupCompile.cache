@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-D:\development\dev\video-launcher\video-launcher\obj\Debug\
+D:\development\dev\video-launcher\video-launcher\obj\Release\
 video_launcher
 none
 false
-DEBUG;TRACE
+TRACE
 D:\development\dev\video-launcher\video-launcher\App.xaml
 4919867387
 
@@ -16,5 +16,5 @@ D:\development\dev\video-launcher\video-launcher\App.xaml
 131569487696
 Home.xaml;MainWindow.xaml;MovieDetails.xaml;MovieIndex.xaml;
 
-False
+True
 

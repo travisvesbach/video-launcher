@@ -39,7 +39,7 @@ namespace video_launcher
         public string Country { get; set; }
         public string Studio { get; set; }
         public string Set { get; set; }
-        public List<string> Genre { get; set; }
+        public List<string> Genres { get; set; }
         public string GenreString { get; set; }
         public List<string> Tags { get; set; }
         public string TagString { get; set; }
@@ -57,9 +57,9 @@ namespace video_launcher
             if (File_nfo != null)
             {
                 ReadNFO();
-                if (Genre != null)
+                if (Genres != null)
                 {
-                    GenreString = string.Join(" / ", Genre);
+                    GenreString = string.Join(" / ", Genres);
                 }
                 if (Tags != null)
                 {
@@ -191,11 +191,12 @@ namespace video_launcher
                         Trailer = node.InnerText;
                         break;
                     case "genre":
-                        if (Genre == null)
+                        if (Genres == null)
                         {
-                            Genre = new List<string>();
+                            Genres = new List<string>();
                         }
-                        Genre.Add(node.InnerText);
+                        Genres.Add(node.InnerText);
+                        wnd.AddMovieGenre(node.InnerText);
                         break;
                     case "tag":
                         if (Tags == null)

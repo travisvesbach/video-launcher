@@ -25,6 +25,7 @@ namespace video_launcher
         public string movieDirectory = "";
         public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
         public Movie MovieToShow = null;
+        public List<Genre> MovieGenres = new List<Genre>();
 
         public MainWindow()
         {
@@ -56,6 +57,18 @@ namespace video_launcher
                 movies.Add(new Movie(new DirectoryInfo(subdirectory)));
             }
 
+        }
+
+        public void AddMovieGenre(string genre)
+        {
+            if (!MovieGenres.Any(x => x.Name == genre))
+            {
+                MovieGenres.Add(new Genre(){
+                    Name = genre,
+                    IsChecked = false
+                });
+                MovieGenres.Sort((x, y) => string.Compare(x.Name, y.Name));
+            }
         }
     }
 

@@ -67,6 +67,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="Genre.cs" />
     <Compile Include="StringVisibilityConverter.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>

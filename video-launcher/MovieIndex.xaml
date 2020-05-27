@@ -9,7 +9,7 @@
       Title="MovieIndex" Foreground="White">
 
     <Page.Resources>
-        <Style TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}" x:Key="MovieButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Template">
@@ -27,7 +27,7 @@
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
-                            <ScaleTransform ScaleX="1.02" ScaleY="1.03"/>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -36,80 +36,122 @@
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
-                            <ScaleTransform ScaleX="1.02" ScaleY="1.03"/>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#69008a"/>
+            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5,0" Margin="5,10" Width="120" Height="40">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MaxWidth="200" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Margin="10">
-            <TextBlock FontSize="22">sidebar</TextBlock>
-            <TextBlock FontSize="22">> <Hyperlink NavigateUri="Home.xaml">Home</Hyperlink></TextBlock>
-            <TextBlock FontSize="22">> Anime</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="22">> Movies</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="22">> TV Shows</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-            <TextBlock FontSize="18">----> Genre</TextBlock>
-        </StackPanel>
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="SlateGray" />
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock FontSize="50" TextAlignment="Center">Showing All Movies</TextBlock>
-            <ListBox Grid.Row="1" Name="lbMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,0,0,0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ContentControl">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <ContentPresenter/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Focusable" Value="False"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Center" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Button Command="{Binding ShowDetails}" Margin="5" Foreground="White" BorderThickness="0">
-                            <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
-                                <DockPanel.Background>
-                                    <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
-                                </DockPanel.Background>
-                                <TextBlock DockPanel.Dock="Bottom" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
-                                    <TextBlock.Background>
-                                        <SolidColorBrush Color="Black" Opacity="0.7" />
-                                    </TextBlock.Background>
-                                </TextBlock>
-                            </DockPanel>
-                        </Button>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <Canvas>
+            <Button Canvas.Top="10" Canvas.Left="10" Click="ClickHome">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/images/projector_aqua.png" Stretch="Uniform" />
+                    <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="Aqua" FontSize="22" Margin="3,0" />
+                </Grid>
+            </Button>
+        </Canvas>
+        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+            <Image Source="/images/projector_aqua.png" Height="50" />
+            <TextBlock FontSize="50" TextAlignment="Center" Text="Movies" Foreground="Aqua" FontWeight="Bold" />
+        </WrapPanel>
+        <Expander DockPanel.Dock="Left" Name="exFilters" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="Aqua" MaxWidth="200">
+            <Expander.Header>
+                <TextBlock Text="Filters">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,10,0,0">
+                    <TextBox Name="tbSearch" TextChanged="SearchTextChanged" />
+                    <Expander Name="exGenres" Header="Genres" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="Aqua">
+                        <ItemsControl ItemsSource="{Binding MovieGenres}" Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="Aqua" FontSize="18" VerticalContentAlignment="Center" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Expander>
+                    <Button FontSize="20" Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Expander>
+        <ListView Name="lvMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,0,0,0" BorderThickness="0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button Command="{Binding ShowDetails}" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource MovieButton}">
+                        <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
+                            <DockPanel.Background>
+                                <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
+                            </DockPanel.Background>
+                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
+                                <TextBlock.Background>
+                                    <SolidColorBrush Color="Black" Opacity="0.7" />
+                                </TextBlock.Background>
+                            </TextBlock>
+                        </DockPanel>
+                    </Button>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
 </Page>

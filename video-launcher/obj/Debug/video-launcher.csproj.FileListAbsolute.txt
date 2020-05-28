@@ -20,3 +20,4 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.exe
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.pdb
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csprojResolveAssemblyReference.cache
+D:\development\dev\video-launcher\video-launcher\obj\Debug\video_launcher.Options.resources

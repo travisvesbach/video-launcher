@@ -68,6 +68,11 @@ namespace video_launcher
         {
             get { return Genres; }
         }
+
+        public MainWindow Window
+        {
+            get { return wnd; }
+        }
         
         public void ProcessDirectory(string targetDirectory)
         {

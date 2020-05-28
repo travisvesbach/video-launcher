@@ -1,7 +1,45 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="video_launcher.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultBackgroundTopColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#330242</Value>
+    </Setting>
+    <Setting Name="DefaultBackgroundBottomColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#200d26</Value>
+    </Setting>
+    <Setting Name="DefaultButtonColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#69008a</Value>
+    </Setting>
+    <Setting Name="DefaultButtonHoverColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#52016b</Value>
+    </Setting>
+    <Setting Name="DefaultTextColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#FF00FFFF</Value>
+    </Setting>
+    <Setting Name="BackgroundTopColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#330242</Value>
+    </Setting>
+    <Setting Name="BackgroundBottomColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#200d26</Value>
+    </Setting>
+    <Setting Name="ButtonColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#69008a</Value>
+    </Setting>
+    <Setting Name="ButtonHoverColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#52016b</Value>
+    </Setting>
+    <Setting Name="TextColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF00FFFF</Value>
+    </Setting>
+    <Setting Name="MovieDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TVShowDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AnimeDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>

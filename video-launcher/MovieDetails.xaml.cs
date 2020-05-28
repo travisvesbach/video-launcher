@@ -83,5 +83,11 @@ namespace video_launcher
         {
             NavigationService.Navigate(new Uri("MovieIndex.xaml", UriKind.Relative));
         }
+
+        public MainWindow Window
+        {
+            get { return wnd; }
+        }
+
     }
 }

@@ -9,9 +9,11 @@
       Title="Home">
 
     <Page.Resources>
+        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
+        
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#69008a"/>
-            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -24,7 +26,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -33,7 +35,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -44,7 +46,7 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -53,7 +55,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <UniformGrid Columns="3" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Click="ClickMovieIndex">
+            <Button Click="ClickMovieIndex" Visibility="{Binding AnimeDirectory, Converter={StaticResource StringToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -63,7 +65,7 @@
                     <TextBlock Grid.Row="1" TextAlignment="Center">Anime</TextBlock>
                 </Grid>
             </Button>
-            <Button Click="ClickMovieIndex">
+            <Button Click="ClickMovieIndex" Visibility="{Binding MovieDirectory, Converter={StaticResource StringToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -73,7 +75,7 @@
                     <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
                 </Grid>
             </Button>
-            <Button Click="ClickMovieIndex">
+            <Button Click="ClickMovieIndex" Visibility="{Binding TVShowDirectory, Converter={StaticResource StringToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -84,5 +86,10 @@
                 </Grid>
             </Button>
         </UniformGrid>
+        <Canvas>
+            <Button Canvas.Bottom="10" Canvas.Left="10" Click="ClickOptions">
+                <TextBlock TextAlignment="Center">Settings</TextBlock>
+            </Button>
+        </Canvas>
     </Grid>
 </Page>

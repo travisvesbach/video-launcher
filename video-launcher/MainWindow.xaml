@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:video_launcher"
         mc:Ignorable="d"
-        Title="Video Launcher" Foreground="White">
+        Title="Video Launcher">
 
     <Window.Resources>
         <Style TargetType="{x:Type local:MainWindow}">
@@ -13,8 +13,8 @@
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
                         <LinearGradientBrush.GradientStops>
-                            <GradientStop Offset="0.1" Color="#330242" />
-                            <GradientStop Offset="1" Color="#200d26" />
+                            <GradientStop Offset="0.1" Color="{Binding BackgroundTopColor}" />
+                            <GradientStop Offset="1" Color="{Binding BackgroundBottomColor}" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Setter.Value>

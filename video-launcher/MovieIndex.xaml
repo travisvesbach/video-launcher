@@ -23,7 +23,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -32,7 +32,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -43,8 +43,8 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#69008a"/>
-            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -57,7 +57,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -66,7 +66,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -86,15 +86,15 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Image Source="/images/projector_aqua.png" Stretch="Uniform" />
-                    <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="Aqua" FontSize="22" Margin="3,0" />
+                    <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}" FontSize="22" Margin="3,0" />
                 </Grid>
             </Button>
         </Canvas>
         <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
             <Image Source="/images/projector_aqua.png" Height="50" />
-            <TextBlock FontSize="50" TextAlignment="Center" Text="Movies" Foreground="Aqua" FontWeight="Bold" />
+            <TextBlock FontSize="50" TextAlignment="Center" Text="Movies" Foreground="{Binding Window.TextColor}" FontWeight="Bold" />
         </WrapPanel>
-        <Expander DockPanel.Dock="Left" Name="exFilters" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="Aqua" MaxWidth="200">
+        <Expander DockPanel.Dock="Left" Name="exFilters" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="{Binding Window.TextColor}" MaxWidth="200">
             <Expander.Header>
                 <TextBlock Text="Filters">
                     <TextBlock.LayoutTransform>
@@ -105,11 +105,11 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="0,10,0,0">
                     <TextBox Name="tbSearch" TextChanged="SearchTextChanged" />
-                    <Expander Name="exGenres" Header="Genres" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="Aqua">
+                    <Expander Name="exGenres" Header="Genres" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
                         <ItemsControl ItemsSource="{Binding MovieGenres}" Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="Aqua" FontSize="18" VerticalContentAlignment="Center" />
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="{Binding Window.TextColor}" FontSize="18" VerticalContentAlignment="Center" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

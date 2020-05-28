@@ -22,7 +22,7 @@ namespace video_launcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string movieDirectory = "";
+        public string MovieDirectory = video_launcher.Properties.Settings.Default.MovieDirectory;
         public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
         public Movie MovieToShow = null;
         public List<Genre> MovieGenres = new List<Genre>();
@@ -31,9 +31,14 @@ namespace video_launcher
         {
             this.InitializeComponent();
 
-            ProcessDirectory(movieDirectory);
+            if (MovieDirectory.Length > 0)
+            {
+                ProcessDirectory(MovieDirectory);
+            }
 
             this.Loaded += MainWindow_Loaded;
+
+            DataContext = this;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -69,6 +74,31 @@ namespace video_launcher
                 });
                 MovieGenres.Sort((x, y) => string.Compare(x.Name, y.Name));
             }
+        }
+
+        public Color BackgroundTopColor
+        {
+            get { return (Color)ColorConverter.ConvertFromString(video_launcher.Properties.Settings.Default.BackgroundTopColor);  }
+        }
+
+        public Color BackgroundBottomColor
+        {
+            get { return (Color)ColorConverter.ConvertFromString(video_launcher.Properties.Settings.Default.BackgroundBottomColor);  }
+        }
+
+        public SolidColorBrush ButtonColor
+        {
+            get { return (SolidColorBrush)(new BrushConverter().ConvertFrom(video_launcher.Properties.Settings.Default.ButtonColor)); }
+        }
+
+        public SolidColorBrush ButtonHoverColor
+        {
+            get { return (SolidColorBrush)(new BrushConverter().ConvertFrom(video_launcher.Properties.Settings.Default.ButtonHoverColor)); }
+        }
+
+        public SolidColorBrush TextColor
+        {
+            get { return (SolidColorBrush)(new BrushConverter().ConvertFrom(video_launcher.Properties.Settings.Default.TextColor)); }
         }
     }
 

@@ -13,8 +13,8 @@
         <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
 
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#69008a"/>
-            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -27,7 +27,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -36,7 +36,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#52016b"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>

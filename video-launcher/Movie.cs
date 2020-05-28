@@ -222,5 +222,10 @@ namespace video_launcher
 
         }
 
+
+        public MainWindow Window
+        {
+            get { return wnd; }
+        }
     }
 }

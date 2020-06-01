@@ -4,9 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:video_launcher"
+      xmlns:fa5="http://schemas.fontawesome.com/icons/"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="MovieDetails" Foreground="White">
+      Title="{Binding MovieData.Title}" Foreground="White" x:Name="MovieDetailsPage">
 
     <Page.Resources>
         <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -51,7 +52,7 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="{Binding Thumb}" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="{Binding MovieData.Thumb}" Stretch="UniformToFill" />
         </Grid.Background>
         <Grid>
             <Grid.Background>
@@ -71,14 +72,13 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/images/projector_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}"/>
                         <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
+
                     </Grid>
                 </Button>
             </Canvas>
-            <TextBlock FontSize="50" TextAlignment="Center" Margin="300,0" TextWrapping="Wrap" FontWeight="Bold">
-                <Run Text="{Binding MovieData.Title}"/> (<Run Text="{Binding MovieData.Year}"/>)
-            </TextBlock>
+            <TextBlock FontSize="50" TextAlignment="Center" Margin="300,0" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding MovieData.DisplayName}" />
 
             <TextBlock Grid.Row="1" Text="{Binding MovieData.OriginalTitle}" Margin="300,0" FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.OriginalTitle, Converter={StaticResource StringToVisibilityConverter}}"/>
             <TextBlock Grid.Row="2" Text="{Binding MovieData.Tagline}" Margin="300,0" TextWrapping="Wrap"  FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.Tagline, Converter={StaticResource StringToVisibilityConverter}}"/>
@@ -123,23 +123,23 @@
                 </ItemsControl>
             </Grid>
             <WrapPanel Grid.Row="4" Margin="15">
-                <Button Click="PlayVideo">
+                <Button Command="{Binding MovieData.CommandPlay}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/images/play_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}"/>
                         <TextBlock Grid.Row="1" TextAlignment="Center">Play</TextBlock>
                     </Grid>
                 </Button>
-                <Button Click="OpenTrailer" Visibility="{Binding MovieData.Trailer, Converter={StaticResource StringToVisibilityConverter}}">
+                <Button Command="{Binding MovieData.CommandOpenTrailer}" Visibility="{Binding MovieData.Trailer, Converter={StaticResource StringToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/images/filmstrip_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
+                        <fa5:SvgAwesome Icon="Solid_Tape" Foreground="{Binding Window.TextColor}"/>
                         <TextBlock Grid.Row="1" TextAlignment="Center">Trailer</TextBlock>
                     </Grid>
                 </Button>

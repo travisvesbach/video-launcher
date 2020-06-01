@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:video_launcher"
+      xmlns:fa5="http://schemas.fontawesome.com/icons/"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="MovieIndex" Foreground="White">
@@ -23,7 +24,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -32,7 +33,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -43,8 +44,8 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
-            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="Background" Value="{Binding Window.ButtonColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -57,7 +58,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -66,7 +67,7 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor}"/>
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
@@ -78,22 +79,37 @@
         </Style>
     </Page.Resources>
     <DockPanel LastChildFill="True">
-        <Canvas>
-            <Button Canvas.Top="10" Canvas.Left="10" Click="ClickHome">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="ClickHome" Margin="10">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="/images/projector_aqua.png" Stretch="Uniform" />
+                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="0,7"/>
                     <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}" FontSize="22" Margin="3,0" />
                 </Grid>
             </Button>
-        </Canvas>
-        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
-            <Image Source="/images/projector_aqua.png" Height="50" />
-            <TextBlock FontSize="50" TextAlignment="Center" Text="Movies" Foreground="{Binding Window.TextColor}" FontWeight="Bold" />
-        </WrapPanel>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Center">
+                <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}" Height="50" Margin="10,0"/>
+                <TextBlock FontSize="50" TextAlignment="Center" Text="Movies" Foreground="{Binding Window.TextColor}" FontWeight="Bold" />
+            </WrapPanel>
+            <Button Name="btRefresh" Grid.Column="2" Click="ClickRefresh" Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="0,7"/>
+                    <TextBlock Grid.Column="1" Text="Reload" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}" FontSize="22" Margin="3,0" />
+                </Grid>
+            </Button>
+        </Grid>
         <Expander DockPanel.Dock="Left" Name="exFilters" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="{Binding Window.TextColor}" MaxWidth="200">
             <Expander.Header>
                 <TextBlock Text="Filters">
@@ -109,7 +125,7 @@
                         <ItemsControl ItemsSource="{Binding MovieGenres}" Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="{Binding Window.TextColor}" FontSize="18" VerticalContentAlignment="Center" />
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -118,7 +134,7 @@
                 </StackPanel>
             </ScrollViewer>
         </Expander>
-        <ListView Name="lvMovies" SelectionMode="Single" ItemsSource="{Binding Movies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,0,0,0" BorderThickness="0">
+        <ListView Name="lvMovies" SelectionMode="Single" ItemsSource="{Binding FilteredMovies}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,0,0,0" BorderThickness="0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ContentControl">
                     <Setter Property="Template">
@@ -138,12 +154,12 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding ShowDetails}" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource MovieButton}">
+                    <Button Click="ShowMovie" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource MovieButton}">
                         <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
                             <DockPanel.Background>
                                 <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
                             </DockPanel.Background>
-                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
+                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding DisplayName}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
                                 <TextBlock.Background>
                                     <SolidColorBrush Color="Black" Opacity="0.7" />
                                 </TextBlock.Background>

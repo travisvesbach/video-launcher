@@ -23,7 +23,7 @@ namespace video_launcher
     /// </summary>
     public partial class MovieIndex : Page, INotifyPropertyChanged
     {
-        public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
+        public ObservableCollection<Movie> Movies = new ObservableCollection<Movie>();
 
         public Movie MovieDetails = null;
 
@@ -37,13 +37,14 @@ namespace video_launcher
         public MovieIndex()
         {
             InitializeComponent();
-
-            movies = wnd.movies;
+            Movies = wnd.Movies;
             Genres = wnd.MovieGenres;
-            CheckedGenres = Genre.CheckedGenres(Genres);
 
             DataContext = this;
-            
+
+            LoadMovies();
+            CheckedGenres = Genre.CheckedGenres(Genres);
+
             if (wnd.MovieToShow != null)
             {
                 lvMovies.ScrollIntoView(wnd.MovieToShow);
@@ -56,11 +57,30 @@ namespace video_launcher
             }
         }
 
-        public ObservableCollection<Movie> Movies
+        public ObservableCollection<Movie> FilteredMovies
         {
             get
             {
-                return FilteredMovies();
+                ObservableCollection<Movie> filtered = new ObservableCollection<Movie>();
+                foreach (Movie movie in Movies)
+                {
+                    if (CheckedGenres.Count > 0)
+                    {
+                        if (CheckedGenres.All(x => movie.Genres.Any(y => x == y)) && movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
+                        {
+                            filtered.Add(movie);
+                        }
+                    }
+                    else
+                    {
+                        if (movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
+                        {
+                            filtered.Add(movie);
+                        }
+                    }
+                }
+
+                return filtered;
             }
         }
 
@@ -73,53 +93,85 @@ namespace video_launcher
         {
             get { return wnd; }
         }
-        
+
+        public void LoadMovies()
+        {
+            if (wnd.MovieDirectory.Length > 0 && Movies.Count == 0)
+            {
+                btRefresh.IsEnabled = false;
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += (obj, e) => ProcessDirectory(wnd.MovieDirectory);
+                worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(MoviesImported);
+                worker.RunWorkerAsync();
+            }
+        }
+
         public void ProcessDirectory(string targetDirectory)
         {
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            ObservableCollection<Movie> imported = new ObservableCollection<Movie>();
+            int counter = 0;
             foreach (string subdirectory in subdirectoryEntries)
             {
-                movies.Add(new Movie(new DirectoryInfo(subdirectory)));
+                Movie movie = new Movie(new DirectoryInfo(subdirectory));
+                foreach(string genre in movie.Genres)
+                {
+                    AddGenre(genre);
+                }
+                imported.Add(movie);
+                counter++;
+                    
+                if (counter % 25 == 0)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Movies = imported;
+                        NotifyPropertyChanged("FilteredMovies");
+                        NotifyPropertyChanged("Genres");
+                    });
+                }
+                
             }
-
+            this.Dispatcher.Invoke(() =>
+            {
+                Movies = imported;
+            });
         }
 
-        public ObservableCollection<Movie> FilteredMovies()
+        public void AddGenre(string genre)
         {
-            ObservableCollection<Movie> filtered = new ObservableCollection<Movie>();
-
-            foreach (Movie movie in movies)
+            if (!Genres.Any(x => x.Name == genre))
             {
-                if (CheckedGenres.Count > 0)
+                Genres.Add(new Genre()
                 {
-                    if (CheckedGenres.All(x => movie.Genres.Any(y => x == y)) && movie.Name.ToLower().Contains(SearchText.ToLower()))
-                    {
-                        filtered.Add(movie);
-                    }
-                }
-                else
-                {
-                    if (movie.Name.ToLower().Contains(SearchText.ToLower()))
-                    {
-                        filtered.Add(movie);
-                    }
-                }
+                    Name = genre,
+                    IsChecked = false
+                });
+                Genres.Sort((x, y) => string.Compare(x.Name, y.Name));
             }
-            
-            return filtered;
+        }
+
+        public void MoviesImported(object sender, RunWorkerCompletedEventArgs e)
+        {
+            NotifyPropertyChanged("FilteredMovies");
+            NotifyPropertyChanged("Genres");
+            wnd.Movies = Movies;
+            wnd.MovieGenres = Genres;
+            btRefresh.IsEnabled = true;
         }
 
         public void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
             SearchText = tbSearch.Text;
-            NotifyPropertyChanged("Movies");
+            NotifyPropertyChanged("FilteredMovies");
         }
 
         public void ClickCheckBox(object sender, RoutedEventArgs e)
         {
             CheckedGenres = Genre.CheckedGenres(Genres);
-            NotifyPropertyChanged("Movies");
+            NotifyPropertyChanged("FilteredMovies");
         }
 
         public void ClickResetFilters(object sender, RoutedEventArgs e)
@@ -129,12 +181,19 @@ namespace video_launcher
             SearchText = "";
             tbSearch.Text = "";
             NotifyPropertyChanged("MovieGenres");
-            NotifyPropertyChanged("Movies");
+            NotifyPropertyChanged("FilteredMovies");
         }
 
         public void ClickHome(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("Home.xaml", UriKind.Relative));
+        }
+
+        public void ClickRefresh(object sender, RoutedEventArgs e)
+        {
+            Movies = new ObservableCollection<Movie>();
+            NotifyPropertyChanged("FilteredMovies");
+            LoadMovies();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -145,6 +204,13 @@ namespace video_launcher
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
+        }
+
+        private void ShowMovie(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Movie dataObject = btn.DataContext as Movie;
+            wnd.ShowMovie(dataObject);
         }
     }
 }

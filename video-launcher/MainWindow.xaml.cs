@@ -14,27 +14,25 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.ComponentModel;
 
 namespace video_launcher
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public string MovieDirectory = video_launcher.Properties.Settings.Default.MovieDirectory;
-        public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
+        public ObservableCollection<Movie> Movies = new ObservableCollection<Movie>();
         public Movie MovieToShow = null;
         public List<Genre> MovieGenres = new List<Genre>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindow()
         {
             this.InitializeComponent();
-
-            if (MovieDirectory.Length > 0)
-            {
-                ProcessDirectory(MovieDirectory);
-            }
 
             this.Loaded += MainWindow_Loaded;
 
@@ -46,6 +44,23 @@ namespace video_launcher
             NavigationFrame.NavigationService.Navigate(new Uri("Home.xaml", UriKind.Relative));
         }
 
+        public void OptionsUpdated()
+        {
+            if(video_launcher.Properties.Settings.Default.MovieDirectory != MovieDirectory)
+            {
+                Movies = new ObservableCollection<Movie>();
+                MovieDirectory = video_launcher.Properties.Settings.Default.MovieDirectory;
+                NotifyPropertyChanged("MovieDirectory");
+            }
+
+            NotifyPropertyChanged("BackgroundTopColor");
+            NotifyPropertyChanged("BackgroundBottomColor");
+            NotifyPropertyChanged("ButtonColor");
+            NotifyPropertyChanged("ButtonHoverColor");
+            NotifyPropertyChanged("TextColor");
+
+        }
+
         public void ShowMovie(Movie movie)
         {
             Console.WriteLine("showing " + movie.Name);
@@ -53,27 +68,10 @@ namespace video_launcher
             NavigationFrame.NavigationService.Navigate(new Uri("MovieDetails.xaml", UriKind.Relative));
         }
 
-        public void ProcessDirectory(string targetDirectory)
+        public void ResetBrowseVariables()
         {
-            // Recurse into subdirectories of this directory.
-            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            foreach (string subdirectory in subdirectoryEntries)
-            {
-                movies.Add(new Movie(new DirectoryInfo(subdirectory)));
-            }
-
-        }
-
-        public void AddMovieGenre(string genre)
-        {
-            if (!MovieGenres.Any(x => x.Name == genre))
-            {
-                MovieGenres.Add(new Genre(){
-                    Name = genre,
-                    IsChecked = false
-                });
-                MovieGenres.Sort((x, y) => string.Compare(x.Name, y.Name));
-            }
+            MovieToShow = null;
+            Genre.UncheckGenres(MovieGenres);
         }
 
         public Color BackgroundTopColor
@@ -99,6 +97,14 @@ namespace video_launcher
         public SolidColorBrush TextColor
         {
             get { return (SolidColorBrush)(new BrushConverter().ConvertFrom(video_launcher.Properties.Settings.Default.TextColor)); }
+        }
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
     }
 

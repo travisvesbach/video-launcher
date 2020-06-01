@@ -25,7 +25,6 @@ namespace video_launcher
         public BitmapImage Img_poster { get; set; }
         public string Img_thumb { get; set; }
         public List<string> Subtitles = new List<string>();
-        private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
 
         //from nfo file
         public string Title { get; set; }
@@ -44,8 +43,11 @@ namespace video_launcher
         public List<string> Tags { get; set; }
         public string TagString { get; set; }
 
+        public string DisplayName { get; set; }
 
-        private ICommand _showDetails;
+        
+        private ICommand _play;
+        private ICommand _openTrailer;
 
 
         public Movie(DirectoryInfo dir)
@@ -66,13 +68,13 @@ namespace video_launcher
                     TagString = string.Join(" / ", Tags);
                 }
             }
+            DisplayName = ((Title != null && Year != null) ? Title + " (" + Year + ")" : Name);
         }
 
-        // Process all files in the directory passed in, recurse on any directories
-        // that are found, and process the files they contain.
+
+        // Process the list of files found in the directory.
         public void ProcessDirectory()
         {
-            // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(MovieDirectory.FullName);
             foreach (string fileName in fileEntries)
             {
@@ -81,7 +83,7 @@ namespace video_launcher
 
         }
 
-        // Insert logic for processing found files here.
+        // Insert logic for processing found file here.
         public void ProcessFile(string path)
         {
             string fileName = Path.GetFileNameWithoutExtension(path);
@@ -114,6 +116,7 @@ namespace video_launcher
             {
                 case "poster":
                     Img_poster = new BitmapImage(new Uri(path, UriKind.Absolute));
+                    Img_poster.Freeze();
                     break;
                 case "thumb":
                     Img_thumb = path;
@@ -135,30 +138,6 @@ namespace video_launcher
             }
         }
 
-
-        // commands
-        public bool CanExecute
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public ICommand ShowDetails
-        {
-            get
-            {
-                return _showDetails ?? (_showDetails = new CommandHandler(() => ShowMovie(), () => CanExecute));
-            }
-        }
-
-        public void ShowMovie()
-        {
-            wnd.ShowMovie(this);
-
-        }
-
         public void ReadNFO()
         {
             XmlDocument nfo = new XmlDocument();
@@ -173,7 +152,10 @@ namespace video_launcher
                         Title = node.InnerText;
                         break;
                     case "originaltitle":
-                        OriginalTitle = node.InnerText;
+                        if (node.InnerText != Title)
+                        {
+                            OriginalTitle = node.InnerText;
+                        }
                         break;
                     case "year":
                         Year = node.InnerText;
@@ -188,7 +170,10 @@ namespace video_launcher
                         Runtime = node.InnerText;
                         break;
                     case "trailer":
-                        Trailer = node.InnerText;
+                        if (IsValidUri(node.InnerText))
+                        {
+                            Trailer = node.InnerText;
+                        }
                         break;
                     case "genre":
                         if (Genres == null)
@@ -196,7 +181,6 @@ namespace video_launcher
                             Genres = new List<string>();
                         }
                         Genres.Add(node.InnerText);
-                        wnd.AddMovieGenre(node.InnerText);
                         break;
                     case "tag":
                         if (Tags == null)
@@ -219,13 +203,62 @@ namespace video_launcher
                         break;
                 }
             }
-
         }
 
-
-        public MainWindow Window
+        public BitmapImage Thumb
         {
-            get { return wnd; }
+            get { return (Img_thumb != null) ? new BitmapImage(new Uri(Img_thumb, UriKind.Absolute)) : null; }
+        }
+
+        // commands
+        public bool CanExecute
+        {
+            get { return true; }
+        }
+
+        public ICommand CommandPlay
+        {
+            get { return _play ?? (_play = new CommandHandler(() => Play(), () => CanExecute)); }
+        }
+
+        private void Play()
+        {
+            System.Diagnostics.Process.Start(@File_video);
+        }
+
+        public ICommand CommandOpenTrailer
+        {
+            get { return _openTrailer ?? (_openTrailer = new CommandHandler(() => OpenTrailer(), () => CanExecute)); }
+        }
+
+        private void OpenTrailer()
+        {
+            OpenUri(Trailer);
+        }
+
+        //static functions
+        public static bool OpenUri(string uri)
+        {
+            if (!IsValidUri(uri))
+            {
+                return false;
+            }
+            System.Diagnostics.Process.Start(uri);
+            return true;
+        }
+
+        public static bool IsValidUri(string uri)
+        {
+            if (!Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+            {
+                return false;
+            }
+            Uri tmp;
+            if (!Uri.TryCreate(uri, UriKind.Absolute, out tmp))
+            {
+                return false;
+            }
+            return tmp.Scheme == Uri.UriSchemeHttp || tmp.Scheme == Uri.UriSchemeHttps;
         }
     }
 }

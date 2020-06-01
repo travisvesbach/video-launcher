@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +19,17 @@ namespace video_launcher
     /// <summary>
     /// Interaction logic for Home.xaml
     /// </summary>
-    public partial class Home : Page
+    public partial class Home : Page, INotifyPropertyChanged
     {
-        public string Img_projector = "/video_launcher;component/Images/projector_aqua.png";
         private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Home()
         {
             InitializeComponent();
+
+            wnd.ResetBrowseVariables();
 
             DataContext = this;
         }
@@ -38,12 +42,16 @@ namespace video_launcher
         public void ClickOptions(object sender, RoutedEventArgs e)
         {
             var options = new Options();
+            options.FormClosed += OptionsClosed;
             options.Show();
         }
 
-        public BitmapImage Projector
+        public void OptionsClosed(object sender, System.EventArgs e)
         {
-            get { return new BitmapImage(new Uri(Img_projector, UriKind.Relative)); }
+            wnd.OptionsUpdated();
+            NotifyPropertyChanged("AnimeDirectory");
+            NotifyPropertyChanged("MovieDirectory");
+            NotifyPropertyChanged("TVShowDirectory");
         }
 
         public MainWindow Window
@@ -64,6 +72,15 @@ namespace video_launcher
         public string TVShowDirectory
         {
             get { return video_launcher.Properties.Settings.Default.TVShowDirectory; }
+        }
+
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
 
     }

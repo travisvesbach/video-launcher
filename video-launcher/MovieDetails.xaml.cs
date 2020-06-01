@@ -20,64 +20,18 @@ namespace video_launcher
     /// </summary>
     public partial class MovieDetails : Page
     {
-        public Movie movieToShow = null;
+        public Movie MovieData { get; set; }
 
         private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
-
-        private BitmapImage thumb = null;
 
 
         public MovieDetails()
         {
             InitializeComponent();
-
-            movieToShow = wnd.MovieToShow;
-
-            if (movieToShow.Img_thumb != null)
-            {
-                thumb = new BitmapImage(new Uri(movieToShow.Img_thumb, UriKind.Absolute));
-            }
-
+            MovieData = wnd.MovieToShow;
             DataContext = this;
         }
 
-        public Movie MovieData
-        {
-            get { return movieToShow; }
-        }
-
-        public BitmapImage Thumb
-        {
-            get { return thumb; }
-        }
-
-        public static bool IsValidUri(string uri)
-        {
-            if (!Uri.IsWellFormedUriString(uri, UriKind.Absolute))
-                return false;
-            Uri tmp;
-            if (!Uri.TryCreate(uri, UriKind.Absolute, out tmp))
-                return false;
-            return tmp.Scheme == Uri.UriSchemeHttp || tmp.Scheme == Uri.UriSchemeHttps;
-        }
-
-        public static bool OpenUri(string uri)
-        {
-            if (!IsValidUri(uri))
-                return false;
-            System.Diagnostics.Process.Start(uri);
-            return true;
-        }
-
-        private void OpenTrailer(object sender, RoutedEventArgs e)
-        {
-            OpenUri(movieToShow.Trailer);
-        }
-
-        private void PlayVideo(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(@MovieData.File_video);
-        }
 
         private void ClickMovieIndex(object sender, RoutedEventArgs e)
         {

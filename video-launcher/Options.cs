@@ -100,5 +100,12 @@ namespace video_launcher
                 tbTVShowDirectory.Text = fbdTVShowDirectory.SelectedPath;
             }
         }
+
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        
+ 
     }
 }

@@ -51,6 +51,7 @@
             this.tbTVShowDirectory = new System.Windows.Forms.TextBox();
             this.btMovieDirectory = new System.Windows.Forms.Button();
             this.btTVShowDirectory = new System.Windows.Forms.Button();
+            this.btCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbBackgroundTopColor
@@ -100,7 +101,7 @@
             // btDefaultColors
             // 
             this.btDefaultColors.ForeColor = System.Drawing.Color.Black;
-            this.btDefaultColors.Location = new System.Drawing.Point(38, 671);
+            this.btDefaultColors.Location = new System.Drawing.Point(431, 255);
             this.btDefaultColors.Name = "btDefaultColors";
             this.btDefaultColors.Size = new System.Drawing.Size(252, 42);
             this.btDefaultColors.TabIndex = 5;
@@ -252,12 +253,23 @@
             this.btTVShowDirectory.UseVisualStyleBackColor = true;
             this.btTVShowDirectory.Click += new System.EventHandler(this.btTVShowDirectory_Click);
             // 
+            // btCancel
+            // 
+            this.btCancel.Location = new System.Drawing.Point(38, 671);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(91, 42);
+            this.btCancel.TabIndex = 23;
+            this.btCancel.Text = "Cancel";
+            this.btCancel.UseVisualStyleBackColor = true;
+            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(710, 755);
+            this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btTVShowDirectory);
             this.Controls.Add(this.btMovieDirectory);
             this.Controls.Add(this.tbTVShowDirectory);
@@ -315,5 +327,6 @@
         private System.Windows.Forms.TextBox tbTVShowDirectory;
         private System.Windows.Forms.Button btMovieDirectory;
         private System.Windows.Forms.Button btTVShowDirectory;
+        private System.Windows.Forms.Button btCancel;
     }
 }

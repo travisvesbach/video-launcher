@@ -105,7 +105,51 @@ namespace video_launcher
         {
             this.Close();
         }
-        
- 
+
+        private void btTopBackgroundColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdBackgroundTopColor = new ColorDialog();
+            if (cdBackgroundTopColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbBackgroundTopColor.Text = "#" + (cdBackgroundTopColor.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+
+        }
+
+        private void btBackgroundBottomColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdBackgroundBottomColor = new ColorDialog();
+            if (cdBackgroundBottomColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbBackgroundBottomColor.Text = "#" + (cdBackgroundBottomColor.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+        }
+
+        private void btButtonColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdButtonColor = new ColorDialog();
+            if (cdButtonColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbButtonColor.Text = "#" + (cdButtonColor.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+        }
+
+        private void btButtonHoverColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdButtonHoverColor = new ColorDialog();
+            if (cdButtonHoverColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbButtonHoverColor.Text = "#" + (cdButtonHoverColor.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+        }
+
+        private void btTextColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdTextColor = new ColorDialog();
+            if (cdTextColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbTextColor.Text = "#" + (cdTextColor.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="10,5" Margin="20,0" MaxWidth="400">
+                        <Border Background="{TemplateBinding Background}" Padding="10,5" Margin="20, 10" MaxWidth="400">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -52,44 +52,61 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <UniformGrid Columns="3" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Click="ClickMovieIndex" Visibility="{Binding AnimeDirectory, Converter={StaticResource StringToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Image Source="/images/tv_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
-                    <TextBlock Grid.Row="1" TextAlignment="Center">Anime</TextBlock>
-                </Grid>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
+            <Button Click="ClickMovieIndex" Height="250" Width="300" Visibility="{Binding AnimeDirectory, Converter={StaticResource StringToVisibilityConverter}}">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+                <DockPanel Margin="15">
+                    <TextBlock DockPanel.Dock="Bottom" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="Anime"/>
+                    <WrapPanel HorizontalAlignment="Center" Margin="15">
+                        <fa5:SvgAwesome Icon="Solid_PhotoVideo" Foreground="{Binding Window.TextColor}"/>
+                    </WrapPanel>
+                </DockPanel>
             </Button>
-            <Button Click="ClickMovieIndex" Visibility="{Binding MovieDirectory, Converter={StaticResource StringToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}"/>
-                    <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
-                </Grid>
+            <Button Click="ClickMovieIndex" Height="250" Width="300" Visibility="{Binding MovieDirectory, Converter={StaticResource StringToVisibilityConverter}}">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+                <DockPanel Margin="15">
+                    <TextBlock DockPanel.Dock="Bottom" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="Movies"/>
+                    <WrapPanel HorizontalAlignment="Center" Margin="15">
+                        <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}"/>
+                    </WrapPanel>
+                </DockPanel>
             </Button>
-            <Button Click="ClickMovieIndex" Visibility="{Binding TVShowDirectory, Converter={StaticResource StringToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Image Source="/images/tv_aqua.png" HorizontalAlignment="Center" Stretch="Uniform" />
-                    <TextBlock Grid.Row="1" TextAlignment="Center">TV Shows</TextBlock>
-                </Grid>
+            <Button Click="ClickMovieIndex" Height="250" Width="300" Visibility="{Binding TVShowDirectory, Converter={StaticResource StringToVisibilityConverter}}">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="25"/>
+                    </Style>
+                </Button.Resources>
+                <DockPanel Margin="15">
+                    <TextBlock DockPanel.Dock="Bottom" TextAlignment="Center" FontSize="30" FontWeight="Bold" Text="TV Shows"/>
+                    <WrapPanel HorizontalAlignment="Center" Margin="15">
+                        <fa5:SvgAwesome Icon="Solid_TV" Foreground="{Binding Window.TextColor}"/>
+                    </WrapPanel>
+                </DockPanel>
             </Button>
-        </UniformGrid>
-        <Canvas>
+        </WrapPanel>
+        <Canvas Grid.Row="2">
             <Button Canvas.Bottom="10" Canvas.Left="10" Click="ClickOptions">
-                <TextBlock TextAlignment="Center">Settings</TextBlock>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <WrapPanel>
+                    <fa5:SvgAwesome Icon="Solid_Cogs" Foreground="{Binding Window.TextColor}" Height="20" Margin="5,0" />
+                    <TextBlock TextAlignment="Center">Settings</TextBlock>
+                </WrapPanel>
             </Button>
         </Canvas>
     </Grid>

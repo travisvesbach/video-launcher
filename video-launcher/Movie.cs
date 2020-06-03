@@ -25,6 +25,7 @@ namespace video_launcher
         public BitmapImage Img_poster { get; set; }
         public string Img_thumb { get; set; }
         public List<string> Subtitles = new List<string>();
+        public string SubtitlesString { get; set; }
 
         //from nfo file
         public string Title { get; set; }
@@ -56,6 +57,24 @@ namespace video_launcher
             Name = MovieDirectory.Name;
             ProcessDirectory();
             Console.WriteLine(Name);
+            
+        }
+
+
+        // Process the list of files found in the directory and set defaults if missing files
+        public void ProcessDirectory()
+        {
+            string[] fileEntries = Directory.GetFiles(MovieDirectory.FullName);
+            foreach (string fileName in fileEntries)
+            {
+                ProcessFile(fileName);
+            }
+
+            if (Img_poster == null)
+            {
+                Img_poster = new BitmapImage(new Uri("images/filmstrip.png", UriKind.Relative));
+                Img_poster.Freeze();
+            }
             if (File_nfo != null)
             {
                 ReadNFO();
@@ -67,20 +86,15 @@ namespace video_launcher
                 {
                     TagString = string.Join(" / ", Tags);
                 }
+                if (Subtitles != null)
+                {
+                    SubtitlesString = string.Join(" / ", Subtitles);
+                }
+            } else
+            {
+                Plot = "No .nfo file found in the movie directory";
             }
             DisplayName = ((Title != null && Year != null) ? Title + " (" + Year + ")" : Name);
-        }
-
-
-        // Process the list of files found in the directory.
-        public void ProcessDirectory()
-        {
-            string[] fileEntries = Directory.GetFiles(MovieDirectory.FullName);
-            foreach (string fileName in fileEntries)
-            {
-                ProcessFile(fileName);
-            }
-
         }
 
         // Insert logic for processing found file here.
@@ -132,7 +146,7 @@ namespace video_launcher
             {
                 Subtitles.Add("English");
             }
-            else if (fileName.Contains(".jp"))
+            else if (fileName.Contains(".ja"))
             {
                 Subtitles.Add("Japanese");
             }

@@ -52,13 +52,18 @@
             this.btMovieDirectory = new System.Windows.Forms.Button();
             this.btTVShowDirectory = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
+            this.btBackgroundTopColor = new System.Windows.Forms.Button();
+            this.btBackgroundBottomColor = new System.Windows.Forms.Button();
+            this.btButtonColor = new System.Windows.Forms.Button();
+            this.btButtonHoverColor = new System.Windows.Forms.Button();
+            this.btTextColor = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbBackgroundTopColor
             // 
             this.tbBackgroundTopColor.Location = new System.Drawing.Point(382, 324);
             this.tbBackgroundTopColor.Name = "tbBackgroundTopColor";
-            this.tbBackgroundTopColor.Size = new System.Drawing.Size(268, 31);
+            this.tbBackgroundTopColor.Size = new System.Drawing.Size(139, 31);
             this.tbBackgroundTopColor.TabIndex = 0;
             // 
             // lbBackgroundTopColor
@@ -83,7 +88,7 @@
             // 
             this.tbBackgroundBottomColor.Location = new System.Drawing.Point(382, 394);
             this.tbBackgroundBottomColor.Name = "tbBackgroundBottomColor";
-            this.tbBackgroundBottomColor.Size = new System.Drawing.Size(268, 31);
+            this.tbBackgroundBottomColor.Size = new System.Drawing.Size(139, 31);
             this.tbBackgroundBottomColor.TabIndex = 3;
             // 
             // btSave
@@ -122,7 +127,7 @@
             // 
             this.tbButtonColor.Location = new System.Drawing.Point(382, 462);
             this.tbButtonColor.Name = "tbButtonColor";
-            this.tbButtonColor.Size = new System.Drawing.Size(268, 31);
+            this.tbButtonColor.Size = new System.Drawing.Size(139, 31);
             this.tbButtonColor.TabIndex = 7;
             // 
             // lbButtonHoverColor
@@ -138,7 +143,7 @@
             // 
             this.tbButtonHoverColor.Location = new System.Drawing.Point(382, 528);
             this.tbButtonHoverColor.Name = "tbButtonHoverColor";
-            this.tbButtonHoverColor.Size = new System.Drawing.Size(268, 31);
+            this.tbButtonHoverColor.Size = new System.Drawing.Size(139, 31);
             this.tbButtonHoverColor.TabIndex = 9;
             // 
             // lbTextColor
@@ -154,7 +159,7 @@
             // 
             this.tbTextColor.Location = new System.Drawing.Point(382, 591);
             this.tbTextColor.Name = "tbTextColor";
-            this.tbTextColor.Size = new System.Drawing.Size(268, 31);
+            this.tbTextColor.Size = new System.Drawing.Size(139, 31);
             this.tbTextColor.TabIndex = 11;
             // 
             // lbColors
@@ -263,12 +268,67 @@
             this.btCancel.UseVisualStyleBackColor = true;
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
+            // btBackgroundTopColor
+            // 
+            this.btBackgroundTopColor.Location = new System.Drawing.Point(527, 324);
+            this.btBackgroundTopColor.Name = "btBackgroundTopColor";
+            this.btBackgroundTopColor.Size = new System.Drawing.Size(156, 31);
+            this.btBackgroundTopColor.TabIndex = 24;
+            this.btBackgroundTopColor.Text = "Select Color";
+            this.btBackgroundTopColor.UseVisualStyleBackColor = true;
+            this.btBackgroundTopColor.Click += new System.EventHandler(this.btTopBackgroundColor_Click);
+            // 
+            // btBackgroundBottomColor
+            // 
+            this.btBackgroundBottomColor.Location = new System.Drawing.Point(527, 394);
+            this.btBackgroundBottomColor.Name = "btBackgroundBottomColor";
+            this.btBackgroundBottomColor.Size = new System.Drawing.Size(156, 31);
+            this.btBackgroundBottomColor.TabIndex = 25;
+            this.btBackgroundBottomColor.Text = "Select Color";
+            this.btBackgroundBottomColor.UseVisualStyleBackColor = true;
+            this.btBackgroundBottomColor.Click += new System.EventHandler(this.btBackgroundBottomColor_Click);
+            // 
+            // btButtonColor
+            // 
+            this.btButtonColor.Location = new System.Drawing.Point(527, 462);
+            this.btButtonColor.Name = "btButtonColor";
+            this.btButtonColor.Size = new System.Drawing.Size(156, 31);
+            this.btButtonColor.TabIndex = 26;
+            this.btButtonColor.Text = "Select Color";
+            this.btButtonColor.UseVisualStyleBackColor = true;
+            this.btButtonColor.Click += new System.EventHandler(this.btButtonColor_Click);
+            // 
+            // btButtonHoverColor
+            // 
+            this.btButtonHoverColor.Location = new System.Drawing.Point(527, 528);
+            this.btButtonHoverColor.Name = "btButtonHoverColor";
+            this.btButtonHoverColor.Size = new System.Drawing.Size(156, 31);
+            this.btButtonHoverColor.TabIndex = 27;
+            this.btButtonHoverColor.Text = "Select Color";
+            this.btButtonHoverColor.UseVisualStyleBackColor = true;
+            this.btButtonHoverColor.Click += new System.EventHandler(this.btButtonHoverColor_Click);
+            // 
+            // btTextColor
+            // 
+            this.btTextColor.Location = new System.Drawing.Point(527, 591);
+            this.btTextColor.Name = "btTextColor";
+            this.btTextColor.Size = new System.Drawing.Size(156, 31);
+            this.btTextColor.TabIndex = 28;
+            this.btTextColor.Text = "Select Color";
+            this.btTextColor.UseVisualStyleBackColor = true;
+            this.btTextColor.Click += new System.EventHandler(this.btTextColor_Click);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(710, 755);
+            this.Controls.Add(this.btTextColor);
+            this.Controls.Add(this.btButtonHoverColor);
+            this.Controls.Add(this.btButtonColor);
+            this.Controls.Add(this.btBackgroundBottomColor);
+            this.Controls.Add(this.btBackgroundTopColor);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btTVShowDirectory);
             this.Controls.Add(this.btMovieDirectory);
@@ -328,5 +388,10 @@
         private System.Windows.Forms.Button btMovieDirectory;
         private System.Windows.Forms.Button btTVShowDirectory;
         private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.Button btBackgroundTopColor;
+        private System.Windows.Forms.Button btBackgroundBottomColor;
+        private System.Windows.Forms.Button btButtonColor;
+        private System.Windows.Forms.Button btButtonHoverColor;
+        private System.Windows.Forms.Button btTextColor;
     }
 }

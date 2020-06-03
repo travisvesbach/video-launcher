@@ -76,8 +76,6 @@ namespace video_launcher {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main() {
-            SplashScreen splashScreen = new SplashScreen("images/projector_aqua.png");
-            splashScreen.Show(true);
             video_launcher.App app = new video_launcher.App();
             app.InitializeComponent();
             app.Run();

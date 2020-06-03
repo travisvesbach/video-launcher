@@ -106,6 +106,7 @@ namespace video_launcher
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+
     }
 
 }

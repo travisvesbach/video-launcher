@@ -116,13 +116,17 @@ namespace video_launcher
             foreach (string subdirectory in subdirectoryEntries)
             {
                 Movie movie = new Movie(new DirectoryInfo(subdirectory));
-                foreach(string genre in movie.Genres)
+                if (movie.Genres != null && movie.Genres.Count > 0)
                 {
-                    AddGenre(genre);
+                    foreach (string genre in movie.Genres)
+                    {
+                        AddGenre(genre);
+                    }
+
                 }
                 imported.Add(movie);
                 counter++;
-                    
+
                 if (counter % 25 == 0)
                 {
                     this.Dispatcher.Invoke(() =>

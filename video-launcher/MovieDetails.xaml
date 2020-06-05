@@ -139,6 +139,9 @@
                     <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.SubtitlesString, Converter={StaticResource StringToVisibilityConverter}}">
                         <Run Foreground="Aqua" Text="Subtitles:"/> <Run Text="{Binding MovieData.SubtitlesString}"/>
                     </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MovieData.LastWatchedString, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Foreground="Aqua" Text="Last Watched:"/> <Run Text="{Binding MovieData.LastWatchedString}"/>
+                    </TextBlock>
                         
                 </ItemsControl>
             </Grid>

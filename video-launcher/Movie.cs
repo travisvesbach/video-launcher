@@ -45,6 +45,8 @@ namespace video_launcher
         public List<string> Tags { get; set; }
         public string TagString { get; set; }
         public bool Watched { get; set; }
+        public DateTime? LastWatched { get; set; }
+        public string LastWatchedString { get; set; }
 
         public string DisplayName { get; set; }
 
@@ -221,6 +223,10 @@ namespace video_launcher
                     case "watched":
                         Watched = (node.InnerText == "false" ? false : true);
                         break;
+                    case "lastwatched":
+                        LastWatched = DateTime.Parse(node.InnerText);
+                        LastWatchedString = LastWatched.Value.ToString("MMMM dd, yyyy");
+                        break;
                 }
             }
         }
@@ -320,17 +326,47 @@ namespace video_launcher
             {
                 Watched = (Watched == true ? false : true);
             }
+
+            // load nfo file
             XmlDocument nfo = new XmlDocument();
             nfo.Load(File_nfo);
+
+            // create watched node if it doesn't exist; save new watched status
             XmlNode nfoWatched = nfo.SelectSingleNode("//movie/watched");
             if (nfoWatched == null)
             {
                 nfoWatched = nfo.SelectSingleNode("//movie").AppendChild(nfo.CreateElement("watched"));
             }
             nfoWatched.InnerText = Watched.ToString().ToLower();
+
+            // if watched == true: create, set, and add lastwatched node; else remove node
+            LastWatched = DateTime.Now;
+            XmlNode nfoLastWatched = nfo.SelectSingleNode("//movie/lastwatched");
+            if (Watched)
+            {
+                if (nfoLastWatched == null)
+                {
+                    nfoLastWatched = nfo.SelectSingleNode("//movie").AppendChild(nfo.CreateElement("lastwatched"));
+
+                }
+                LastWatchedString = LastWatched.Value.ToString("MMMM dd, yyyy");
+                nfoLastWatched.InnerText = LastWatchedString;
+            }
+            else
+            {
+                if (nfoLastWatched != null)
+                {
+                    nfo.SelectSingleNode("//movie").RemoveChild(nfoLastWatched);
+                }
+                LastWatched = null;
+                LastWatchedString = null;
+            }
+
             nfo.Save(File_nfo);
 
             NotifyPropertyChanged("Watched");
+            NotifyPropertyChanged("LastWatched");
+            NotifyPropertyChanged("LastWatchedString");
             NotifyPropertyChanged("WatchedToggleText");
             NotifyPropertyChanged("WatchedIcon");
             NotifyPropertyChanged("WatchedButton");

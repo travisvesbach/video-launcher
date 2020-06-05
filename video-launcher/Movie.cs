@@ -240,7 +240,14 @@ namespace video_launcher
 
         public string WatchedToggleText
         {
-            get { return (Watched ? "Mark unwateched" : "Mark watched"); }
+            get
+            {
+                if (File_nfo == null)
+                {
+                    return "No nfo file";
+                }
+                return (Watched ? "Mark unwateched" : "Mark watched");
+            }
         }
 
         public string WatchedIcon
@@ -273,7 +280,6 @@ namespace video_launcher
                 {
                     return true;
                 }
-                MessageBox.Show("No nfo file to edit.  Watched status cannot be set.");
                 return false;
             }
         }

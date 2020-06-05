@@ -12,6 +12,7 @@
     <Page.Resources>
         <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
         <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
@@ -82,7 +83,7 @@
                     </Grid>
                 </Button>
                 <TextBlock Grid.Column="1" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding MovieData.DisplayName}" />
-                <Button Grid.Column="2" Command="{Binding MovieData.CommandToggleWatched}" ToolTip="{Binding MovieData.WatchedToggleText}">
+                <Button Grid.Column="2" Command="{Binding MovieData.CommandToggleWatched}" ToolTip="{Binding MovieData.WatchedToggleText}" Visibility="{Binding MovieData.File_nfo, Converter={StaticResource StringToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>

@@ -40,6 +40,8 @@ namespace video_launcher
             InitializeComponent();
             Movies = wnd.Movies;
             Genres = wnd.MovieGenres;
+            WatchedFilter = wnd.WatchedFilter;
+
 
             DataContext = this;
 
@@ -51,11 +53,7 @@ namespace video_launcher
                 lvMovies.ScrollIntoView(wnd.MovieToShow);
             }
 
-            if(CheckedGenres.Count > 0)
-            {
-                exFilters.IsExpanded = true;
-                exGenres.IsExpanded = true;
-            }
+            SetCurrentFilters();
         }
 
         public ObservableCollection<Movie> FilteredMovies
@@ -65,7 +63,7 @@ namespace video_launcher
                 ObservableCollection<Movie> filtered = new ObservableCollection<Movie>();
                 foreach (Movie movie in Movies)
                 {
-                    if (CheckedGenres.Count > 0)
+                    if (CheckedGenres.Count > 0 && movie.Genres != null)
                     {
                         if (CheckedGenres.All(x => movie.Genres.Any(y => x == y)) && movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
@@ -174,6 +172,29 @@ namespace video_launcher
             btRefresh.IsEnabled = true;
         }
 
+        public void SetCurrentFilters()
+        {
+            if (CheckedGenres.Count > 0)
+            {
+                exFilters.IsExpanded = true;
+                exGenres.IsExpanded = true;
+            }
+
+            if (WatchedFilter != "All")
+            {
+                if (WatchedFilter == "Watched")
+                {
+                    rbWatched.IsChecked = true;
+                }
+                else
+                {
+                    rbUnwatched.IsChecked = true;
+                }
+                exFilters.IsExpanded = true;
+                exWatched.IsExpanded = true;
+            }
+        }
+
         public void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
             SearchText = tbSearch.Text;
@@ -186,9 +207,10 @@ namespace video_launcher
             NotifyPropertyChanged("FilteredMovies");
         }
 
-        public void CheckWatchedRadio(object sender, RoutedEventArgs e)
+        public void ClickWatchedRadio(object sender, RoutedEventArgs e)
         {
             WatchedFilter = (sender as RadioButton).Content.ToString();
+            wnd.WatchedFilter = WatchedFilter;
             NotifyPropertyChanged("FilteredMovies");
         }
 

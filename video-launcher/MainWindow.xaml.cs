@@ -27,6 +27,7 @@ namespace video_launcher
         public ObservableCollection<Movie> Movies = new ObservableCollection<Movie>();
         public Movie MovieToShow = null;
         public List<Genre> MovieGenres = new List<Genre>();
+        public string WatchedFilter = "All";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,6 +73,7 @@ namespace video_launcher
         {
             MovieToShow = null;
             Genre.UncheckGenres(MovieGenres);
+            WatchedFilter = "All";
         }
 
         public Color BackgroundTopColor

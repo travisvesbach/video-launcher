@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
         
         <Style TargetType="{x:Type Button}" x:Key="MovieButton">
             <Setter Property="Background" Value="Transparent"/>
@@ -134,10 +135,9 @@
                     </Expander>
                     <Expander Name="exWatched" Header="Watched" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
                         <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
-                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="Unwatched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-
+                            <RadioButton GroupName="rbgWatched" Name="rbAllWatched" Click="ClickWatchedRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgWatched" Name="rbUnwatched" Click="ClickWatchedRadio" Content="Unwatched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                         </ItemsControl>
                     </Expander>
                     <Button FontSize="20" Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
@@ -169,7 +169,7 @@
                             <ContextMenu>
                                 <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">
                                     <MenuItem.Icon>
-                                        <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}"/>
+                                        <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}" Visibility="{Binding File_nfo, Converter={StaticResource StringToVisibilityConverter}}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>

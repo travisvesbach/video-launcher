@@ -29,6 +29,7 @@ namespace video_launcher
 
         public List<Genre> Genres = new List<Genre>();
         public List<string> CheckedGenres = new List<string>();
+        public string WatchedFilter = "All";
         public string SearchText = "";
 
         private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
@@ -68,14 +69,21 @@ namespace video_launcher
                     {
                         if (CheckedGenres.All(x => movie.Genres.Any(y => x == y)) && movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-                            filtered.Add(movie);
+
+                            if ((WatchedFilter == "Watched" && movie.Watched == true) || (WatchedFilter == "Unwatched" && movie.Watched == false) || (WatchedFilter == "All"))
+                            {
+                                filtered.Add(movie);
+                            }
                         }
                     }
                     else
                     {
                         if (movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-                            filtered.Add(movie);
+                            if ((WatchedFilter == "Watched" && movie.Watched == true) || (WatchedFilter == "Unwatched" && movie.Watched == false) || (WatchedFilter == "All"))
+                            {
+                                filtered.Add(movie);
+                            }
                         }
                     }
                 }
@@ -175,6 +183,12 @@ namespace video_launcher
         public void ClickCheckBox(object sender, RoutedEventArgs e)
         {
             CheckedGenres = Genre.CheckedGenres(Genres);
+            NotifyPropertyChanged("FilteredMovies");
+        }
+
+        public void CheckWatchedRadio(object sender, RoutedEventArgs e)
+        {
+            WatchedFilter = (sender as RadioButton).Content.ToString();
             NotifyPropertyChanged("FilteredMovies");
         }
 

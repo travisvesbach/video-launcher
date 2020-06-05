@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ using System.Xml;
 
 namespace video_launcher
 {
-    public class Movie
+    public class Movie : INotifyPropertyChanged
     {
         // directory class
         public DirectoryInfo MovieDirectory { get; set; }
@@ -43,13 +44,16 @@ namespace video_launcher
         public string GenreString { get; set; }
         public List<string> Tags { get; set; }
         public string TagString { get; set; }
+        public bool Watched { get; set; }
 
         public string DisplayName { get; set; }
 
         
         private ICommand _play;
         private ICommand _openTrailer;
+        private ICommand _toggleWatched;
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Movie(DirectoryInfo dir)
         {
@@ -57,7 +61,6 @@ namespace video_launcher
             Name = MovieDirectory.Name;
             ProcessDirectory();
             Console.WriteLine(Name);
-            
         }
 
 
@@ -215,7 +218,18 @@ namespace video_launcher
                     case "studio":
                         Studio = node.InnerText;
                         break;
+                    case "watched":
+                        Watched = (node.InnerText == "false" ? false : true);
+                        break;
                 }
+            }
+        }
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
 
@@ -224,10 +238,44 @@ namespace video_launcher
             get { return (Img_thumb != null) ? new BitmapImage(new Uri(Img_thumb, UriKind.Absolute)) : null; }
         }
 
+        public string WatchedToggleText
+        {
+            get { return (Watched ? "Mark unwateched" : "Mark watched"); }
+        }
+
+        public string WatchedIcon
+        {
+            get { return (Watched ? "Solid_CheckCircle" : "Solid_TimesCircle"); }
+        }
+
+        public string WatchedContextIcon
+        {
+            get { return (Watched ? "Solid_TimesCircle" : "Solid_CheckCircle"); }
+        }
+
+        public string WatchedButton
+        {
+            get { return (Watched ? "Watched" : "Unwatched"); }
+        }
+        
+
         // commands
         public bool CanExecute
         {
             get { return true; }
+        }
+
+        public bool CanExecuteEditNFO
+        {
+            get
+            {
+                if (File_nfo != null)
+                {
+                    return true;
+                }
+                MessageBox.Show("No nfo file to edit.  Watched status cannot be set.");
+                return false;
+            }
         }
 
         public ICommand CommandPlay
@@ -238,6 +286,7 @@ namespace video_launcher
         private void Play()
         {
             System.Diagnostics.Process.Start(@File_video);
+            ToggleWatched("watched");
         }
 
         public ICommand CommandOpenTrailer
@@ -248,6 +297,38 @@ namespace video_launcher
         private void OpenTrailer()
         {
             OpenUri(Trailer);
+        }
+
+        public ICommand CommandToggleWatched
+        {
+            get { return _toggleWatched ?? (_toggleWatched = new CommandHandler(() => ToggleWatched(), () => CanExecuteEditNFO)); }
+        }
+
+        public void ToggleWatched(string target = null)
+        {
+            if (target != null)
+            {
+                Watched = (target == "watched" ? true : false);
+            } 
+            else
+            {
+                Watched = (Watched == true ? false : true);
+            }
+            XmlDocument nfo = new XmlDocument();
+            nfo.Load(File_nfo);
+            XmlNode nfoWatched = nfo.SelectSingleNode("//movie/watched");
+            if (nfoWatched == null)
+            {
+                nfoWatched = nfo.SelectSingleNode("//movie").AppendChild(nfo.CreateElement("watched"));
+            }
+            nfoWatched.InnerText = Watched.ToString().ToLower();
+            nfo.Save(File_nfo);
+
+            NotifyPropertyChanged("Watched");
+            NotifyPropertyChanged("WatchedToggleText");
+            NotifyPropertyChanged("WatchedIcon");
+            NotifyPropertyChanged("WatchedButton");
+            NotifyPropertyChanged("WatchedContextIcon");
         }
 
         //static functions

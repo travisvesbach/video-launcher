@@ -65,8 +65,13 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Canvas>
-                <Button Canvas.Top="10" Canvas.Left="10" Click="ClickMovieIndex">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Click="ClickMovieIndex">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -74,11 +79,20 @@
                         </Grid.RowDefinitions>
                         <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}"/>
                         <TextBlock Grid.Row="1" TextAlignment="Center">Movies</TextBlock>
-
                     </Grid>
                 </Button>
-            </Canvas>
-            <TextBlock FontSize="50" TextAlignment="Center" Margin="300,0" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding MovieData.DisplayName}" />
+                <TextBlock Grid.Column="1" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding MovieData.DisplayName}" />
+                <Button Grid.Column="2" Command="{Binding MovieData.CommandToggleWatched}" ToolTip="{Binding MovieData.WatchedToggleText}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <fa5:SvgAwesome Icon="{Binding MovieData.WatchedIcon}" Foreground="{Binding Window.TextColor}"/>
+                        <TextBlock Grid.Row="1" Text="{Binding MovieData.WatchedButton}" Foreground="{Binding Window.TextColor}" FontSize="18" />
+                    </Grid>
+                </Button>
+            </Grid>
 
             <TextBlock Grid.Row="1" Text="{Binding MovieData.OriginalTitle}" Margin="300,0" FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.OriginalTitle, Converter={StaticResource StringToVisibilityConverter}}"/>
             <TextBlock Grid.Row="2" Text="{Binding MovieData.Tagline}" Margin="300,0" TextWrapping="Wrap"  FontSize="24" TextAlignment="Center" Visibility="{Binding MovieData.Tagline, Converter={StaticResource StringToVisibilityConverter}}"/>
@@ -92,11 +106,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding MovieData.Img_poster}" Margin="15,0,0,0"/>
-                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding MovieData.Plot}" FontSize="20" TextWrapping="Wrap" Margin="15,0" Padding="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <TextBlock.Background>
+                <ScrollViewer Grid.Column="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer.Background>
                         <SolidColorBrush Color="Black" Opacity="0.6"/>
-                    </TextBlock.Background>
-                </TextBlock>
+                    </ScrollViewer.Background>
+                    <TextBlock  Text="{Binding MovieData.Plot}" FontSize="20" TextWrapping="Wrap" Margin="15,0" Padding="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    </TextBlock>
+                </ScrollViewer>
                 <ItemsControl Grid.Column="3" Grid.ColumnSpan="2" FontSize="16" Margin="15,0" Padding="10">
                     <ItemsControl.Background>
                         <SolidColorBrush Color="Black" Opacity="0.6"/>

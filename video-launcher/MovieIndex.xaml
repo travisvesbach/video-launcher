@@ -10,6 +10,8 @@
       Title="MovieIndex" Foreground="White">
 
     <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
         <Style TargetType="{x:Type Button}" x:Key="MovieButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -130,6 +132,14 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Expander>
+                    <Expander Name="exWatched" Header="Watched" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
+                        <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
+                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="Unwatched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbWatched" Checked="CheckWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+
+                        </ItemsControl>
+                    </Expander>
                     <Button FontSize="20" Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
                 </StackPanel>
             </ScrollViewer>
@@ -155,10 +165,22 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Button Click="ShowMovie" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource MovieButton}">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">
+                                    <MenuItem.Icon>
+                                        <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                         <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
                             <DockPanel.Background>
                                 <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
                             </DockPanel.Background>
+                            <Canvas>
+                                <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="Solid_CheckCircle" Height="20" Visibility="{Binding Watched, Converter={StaticResource BooleanToVisibilityConverter}}" ToolTip="Watched"/>
+                            </Canvas>
                             <TextBlock DockPanel.Dock="Bottom" Text="{Binding DisplayName}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
                                 <TextBlock.Background>
                                     <SolidColorBrush Color="Black" Opacity="0.7" />

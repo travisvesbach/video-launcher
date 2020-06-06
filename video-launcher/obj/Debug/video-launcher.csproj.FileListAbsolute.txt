@@ -26,3 +26,7 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.exe
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.pdb
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csprojResolveAssemblyReference.cache
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.baml

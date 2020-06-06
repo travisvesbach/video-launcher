@@ -56,7 +56,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Button Click="ClickMovieIndex" Height="250" Width="300" Visibility="{Binding AnimeDirectory, Converter={StaticResource StringToVisibilityConverter}}">
+            <Button Click="ClickAnimeIndex" Height="250" Width="300" Visibility="{Binding AnimeDirectory, Converter={StaticResource StringToVisibilityConverter}}">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="15"/>
@@ -82,7 +82,7 @@
                     </WrapPanel>
                 </DockPanel>
             </Button>
-            <Button Click="ClickMovieIndex" Height="250" Width="300" Visibility="{Binding TVShowDirectory, Converter={StaticResource StringToVisibilityConverter}}">
+            <Button Click="ClickTVIndex" Height="250" Width="300" Visibility="{Binding TVShowDirectory, Converter={StaticResource StringToVisibilityConverter}}">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="25"/>

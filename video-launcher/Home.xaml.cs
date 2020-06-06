@@ -34,9 +34,21 @@ namespace video_launcher
             DataContext = this;
         }
 
+        private void ClickAnimeIndex(object sender, RoutedEventArgs e)
+        {
+            wnd.ShowType = "Anime";
+            NavigationService.Navigate(new Uri("ShowIndex.xaml", UriKind.Relative));
+        }
+
         private void ClickMovieIndex(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("MovieIndex.xaml", UriKind.Relative));
+        }
+
+        private void ClickTVIndex(object sender, RoutedEventArgs e)
+        {
+            wnd.ShowType = "TV";
+            NavigationService.Navigate(new Uri("ShowIndex.xaml", UriKind.Relative));
         }
 
         public void ClickOptions(object sender, RoutedEventArgs e)

@@ -85,6 +85,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="Episode.cs" />
     <Compile Include="Options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +94,13 @@
     </Compile>
     <Compile Include="Genre.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Show.cs" />
+    <Compile Include="ShowDetails.xaml.cs">
+      <DependentUpon>ShowDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowIndex.xaml.cs">
+      <DependentUpon>ShowIndex.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringVisibilityConverter.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -106,6 +114,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MovieIndex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowIndex.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

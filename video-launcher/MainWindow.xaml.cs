@@ -23,10 +23,25 @@ namespace video_launcher
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public string AnimeDirectory = video_launcher.Properties.Settings.Default.AnimeDirectory;
         public string MovieDirectory = video_launcher.Properties.Settings.Default.MovieDirectory;
+        public string TVDirectory = video_launcher.Properties.Settings.Default.TVShowDirectory;
+
         public ObservableCollection<Movie> Movies = new ObservableCollection<Movie>();
         public Movie MovieToShow = null;
         public List<Genre> MovieGenres = new List<Genre>();
+
+
+
+        public string ShowType { get; set; }
+        public ObservableCollection<Show> Anime = new ObservableCollection<Show>();
+        public List<Genre> AnimeGenres = new List<Genre>();
+        public ObservableCollection<Show> TV = new ObservableCollection<Show>();
+        public List<Genre> TVGenres = new List<Genre>();
+
+
+        public Show ShowToShow = null;
+
         public string WatchedFilter = "All";
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -69,11 +84,36 @@ namespace video_launcher
             NavigationFrame.NavigationService.Navigate(new Uri("MovieDetails.xaml", UriKind.Relative));
         }
 
+        public void ShowShow(Show show)
+        {
+            Console.WriteLine("showing " + show.Name);
+            ShowToShow = show;
+            NavigationFrame.NavigationService.Navigate(new Uri("ShowDetails.xaml", UriKind.Relative));
+        }
+
         public void ResetBrowseVariables()
         {
             MovieToShow = null;
+            ShowType = null;
+            ShowToShow = null;
             Genre.UncheckGenres(MovieGenres);
             WatchedFilter = "All";
+        }
+
+        public string ShowDirectory
+        {
+            get
+            {
+                if (ShowType == "Anime" && AnimeDirectory.Length > 0)
+                {
+                    return AnimeDirectory;
+                }
+                else if ( ShowType == "TV" && TVDirectory.Length > 0)
+                {
+                    return TVDirectory;
+                }
+                return null;
+            }
         }
 
         public Color BackgroundTopColor

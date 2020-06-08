@@ -30,3 +30,5 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.baml

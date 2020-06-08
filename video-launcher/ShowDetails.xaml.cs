@@ -30,7 +30,10 @@ namespace video_launcher
 
             InitializeComponent();
             ShowData = wnd.ShowToShow;
-            ShowData.ProcessSeasons();
+            if (ShowData.EpisodeCount <= 0)
+            {
+                ShowData.ProcessSeasons();
+            }
             DataContext = this;
         }
 
@@ -38,6 +41,11 @@ namespace video_launcher
         private void ClickShowIndex(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("ShowIndex.xaml", UriKind.Relative));
+        }
+
+        private void ClickShowEpisodes(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("ShowEpisodes.xaml", UriKind.Relative));
         }
 
         public MainWindow Window

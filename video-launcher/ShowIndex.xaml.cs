@@ -31,6 +31,7 @@ namespace video_launcher
         public List<string> CheckedGenres = new List<string>();
         public string WatchedFilter = "All";
         public string SearchText = "";
+        public string ShowType { get; set; }
 
         private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
 
@@ -38,10 +39,11 @@ namespace video_launcher
         public ShowIndex()
         {
             InitializeComponent();
+            ShowType = (wnd.ShowType == "TV" ? "TV Shows" : "Anime");
             Shows = (wnd.ShowType == "TV" ? wnd.TV : wnd.Anime);
             Genres = (wnd.ShowType == "TV" ? wnd.TVGenres : wnd.AnimeGenres);
             WatchedFilter = wnd.WatchedFilter;
-
+            
 
             DataContext = this;
             
@@ -68,7 +70,7 @@ namespace video_launcher
                         if (CheckedGenres.All(x => show.Genres.Any(y => x == y)) && show.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
 
-                            if ((WatchedFilter == "Watched" && show.Watched == true) || (WatchedFilter == "Unwatched" && show.Watched == false) || (WatchedFilter == "All"))
+                            if ((WatchedFilter == "Watched" && show.Watched == "true") || (WatchedFilter == "Unwatched" && show.Watched == "false") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(show);
                             }
@@ -78,7 +80,7 @@ namespace video_launcher
                     {
                         if (show.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-                            if ((WatchedFilter == "Watched" && show.Watched == true) || (WatchedFilter == "Unwatched" && show.Watched == false) || (WatchedFilter == "All"))
+                            if ((WatchedFilter == "Watched" && show.Watched == "true") || (WatchedFilter == "Unwatched" && show.Watched == "false") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(show);
                             }

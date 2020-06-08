@@ -68,7 +68,7 @@ namespace video_launcher
                         if (CheckedGenres.All(x => movie.Genres.Any(y => x == y)) && movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
 
-                            if ((WatchedFilter == "Watched" && movie.Watched == true) || (WatchedFilter == "Unwatched" && movie.Watched == false) || (WatchedFilter == "All"))
+                            if ((WatchedFilter == "Watched" && movie.Watched == "true") || (WatchedFilter == "Unwatched" && movie.Watched == "false") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(movie);
                             }
@@ -78,7 +78,7 @@ namespace video_launcher
                     {
                         if (movie.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-                            if ((WatchedFilter == "Watched" && movie.Watched == true) || (WatchedFilter == "Unwatched" && movie.Watched == false) || (WatchedFilter == "All"))
+                            if ((WatchedFilter == "Watched" && movie.Watched == "true") || (WatchedFilter == "Unwatched" && movie.Watched == "false") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(movie);
                             }

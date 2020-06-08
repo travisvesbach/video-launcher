@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="WatchedVisibilityConverter.cs" />
     <Page Include="Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +99,9 @@
     <Compile Include="ShowDetails.xaml.cs">
       <DependentUpon>ShowDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShowEpisodes.xaml.cs">
+      <DependentUpon>ShowEpisodes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShowIndex.xaml.cs">
       <DependentUpon>ShowIndex.xaml</DependentUpon>
     </Compile>
@@ -118,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShowDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowEpisodes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

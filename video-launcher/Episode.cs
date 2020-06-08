@@ -35,7 +35,7 @@ namespace video_launcher
         public string EpisodeNumber { get; set; }
         public string Plot { get; set; }
         public string Aired { get; set; }
-        public bool Watched { get; set; }
+        public string Watched { get; set; }
         public DateTime? LastWatched { get; set; }
         public string LastWatchedString { get; set; }
 
@@ -47,10 +47,18 @@ namespace video_launcher
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Episode(string videoPath)
+        public Episode(string videoPath, int seasonNum, int episodeNum, Show parent)
         {
-            Console.WriteLine(videoPath);
+            Parent = parent;
             ProcessVideoPath(videoPath);
+            if (Season == null)
+            {
+                Season = seasonNum.ToString();
+            }
+            if (EpisodeNumber == null)
+            {
+                EpisodeNumber = episodeNum.ToString();
+            }
         }
 
         
@@ -62,7 +70,7 @@ namespace video_launcher
             Name = fileName;
             Video_type = fileExtension.TrimStart('.');
 
-            string filePathWithoutExtension = Path.GetDirectoryName(videoPath) + "fileName";
+            string filePathWithoutExtension = Path.GetDirectoryName(videoPath) + "\\" + fileName;
             string tempNFOPath = filePathWithoutExtension + ".nfo";
             if (File.Exists(tempNFOPath))
             {
@@ -124,7 +132,15 @@ namespace video_launcher
         public void ReadNFO()
         {
             XmlDocument nfo = new XmlDocument();
-            nfo.Load(File_nfo);
+            try
+            {
+                nfo.Load(File_nfo);
+            }
+            catch(Exception ex)
+            {
+                Plot = "Could not load nfo file. Exception message: " + ex.Message;
+                return;
+            }
 
             foreach (XmlNode node in nfo.DocumentElement.ChildNodes)
             {
@@ -147,14 +163,14 @@ namespace video_launcher
                         Plot = node.InnerText;
                         break;
                     case "aired":
-                        Aired = node.InnerText;
+                        Aired = DateTime.Parse(node.InnerText).ToString("d");
                         break;
                     case "watched":
-                        Watched = (node.InnerText == "false" ? false : true);
+                        Watched = node.InnerText;
                         break;
                     case "lastwatched":
                         LastWatched = DateTime.Parse(node.InnerText);
-                        LastWatchedString = LastWatched.Value.ToString("MMMM dd, yyyy");
+                        LastWatchedString = LastWatched.Value.ToString("d");
                         break;
                 }
             }
@@ -181,23 +197,56 @@ namespace video_launcher
                 {
                     return "No nfo file";
                 }
-                return (Watched ? "Mark unwateched" : "Mark watched");
+                return (Watched == "false" ? "Mark wateched" : "Mark unwatched");
             }
         }
 
         public string WatchedIcon
         {
-            get { return (Watched ? "Solid_CheckCircle" : "Solid_TimesCircle"); }
+            get
+            {
+                if (Watched == "true")
+                {
+                    return "Solid_CheckCircle";
+                }
+                else
+                {
+                    return "Solid_TimesCircle";
+                }
+            }
         }
 
         public string WatchedContextIcon
         {
-            get { return (Watched ? "Solid_TimesCircle" : "Solid_CheckCircle"); }
+            get { return (Watched == "false" ? "Solid_CheckCircle" : "Solid_TimesCircle"); }
         }
 
         public string WatchedButton
         {
-            get { return (Watched ? "Watched" : "Unwatched"); }
+            get
+            {
+                if (Watched == "true")
+                {
+                    return "Watched";
+                }
+                else
+                {
+                    return "Unwatched";
+                }
+            }
+        }
+
+        public string EpisodeNumberString
+        {
+            get
+            {
+                string numString = EpisodeNumber.ToString() + ".";
+                if (numString.Length == 2)
+                {
+                    numString = "0" + numString;
+                }
+                return numString;
+            }
         }
 
 
@@ -239,16 +288,23 @@ namespace video_launcher
         {
             if (target != null)
             {
-                Watched = (target == "watched" ? true : false);
+                Watched = (target == "watched" ? "true" : "false");
             }
             else
             {
-                Watched = (Watched == true ? false : true);
+                Watched = (Watched == "true" ? "false" : "true");
             }
 
             // load nfo file
             XmlDocument nfo = new XmlDocument();
-            nfo.Load(File_nfo);
+            try
+            {
+                nfo.Load(File_nfo);
+            }
+            catch (Exception)
+            {
+                return;
+            }
 
             // create watched node if it doesn't exist; save new watched status
             XmlNode nfoWatched = nfo.SelectSingleNode("//episodedetails/watched");
@@ -261,14 +317,14 @@ namespace video_launcher
             // if watched == true: create, set, and add lastwatched node; else remove node
             LastWatched = DateTime.Now;
             XmlNode nfoLastWatched = nfo.SelectSingleNode("//episodedetails/lastwatched");
-            if (Watched)
+            if (Watched == "true")
             {
                 if (nfoLastWatched == null)
                 {
                     nfoLastWatched = nfo.SelectSingleNode("//episodedetails").AppendChild(nfo.CreateElement("lastwatched"));
 
                 }
-                LastWatchedString = LastWatched.Value.ToString("MMMM dd, yyyy");
+                LastWatchedString = LastWatched.Value.ToString("d");
                 nfoLastWatched.InnerText = LastWatchedString;
             }
             else
@@ -282,6 +338,8 @@ namespace video_launcher
             }
 
             nfo.Save(File_nfo);
+
+            Parent.EpisodeWatched();
 
             NotifyPropertyChanged("Watched");
             NotifyPropertyChanged("LastWatched");

@@ -11,6 +11,7 @@
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <local:WatchedVisibilityConverter x:Key="WatchedToVisibilityConverter" />
 
         <Style TargetType="{x:Type Button}" x:Key="ShowButton">
             <Setter Property="Background" Value="Transparent"/>
@@ -46,14 +47,17 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{Binding Window.ButtonColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-            <Setter Property="Foreground" Value="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5,0" Margin="5,10" Width="120" Height="40">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15" Padding="10">
+                            <ContentPresenter VerticalAlignment="Center" Margin="10,0"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -64,7 +68,7 @@
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
-                            <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -73,7 +77,7 @@
                     <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                     <Setter Property="RenderTransform">
                         <Setter.Value>
-                            <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -87,28 +91,25 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Click="ClickHome" Margin="10">
+            <Button Click="ClickHome">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="0,7"/>
-                    <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}" FontSize="22" Margin="3,0" />
+                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}"/>
                 </Grid>
             </Button>
-            <WrapPanel Grid.Column="1" HorizontalAlignment="Center">
-                <fa5:SvgAwesome Icon="Solid_Film" Foreground="{Binding Window.TextColor}" Height="50" Margin="10,0"/>
-                <TextBlock FontSize="50" TextAlignment="Center" Text="Shows" Foreground="{Binding Window.TextColor}" FontWeight="Bold" />
-            </WrapPanel>
-            <Button Name="btRefresh" Grid.Column="2" Click="ClickRefresh" Margin="10">
+            <TextBlock FontSize="50" Grid.Column="1"  TextAlignment="Center" Text="{Binding ShowType}" Foreground="{Binding Window.TextColor}" FontWeight="Bold" />
+            <Button Name="btRefresh" Grid.Column="2" Click="ClickRefresh" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="0,7"/>
-                    <TextBlock Grid.Column="1" Text="Reload" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}" FontSize="22" Margin="3,0" />
+                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <TextBlock Grid.Column="1" Text="Reload" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}"/>
                 </Grid>
             </Button>
         </Grid>
@@ -139,7 +140,7 @@
                             <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                         </ItemsControl>
                     </Expander>
-                    <Button FontSize="20" Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
+                    <Button Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
                 </StackPanel>
             </ScrollViewer>
         </Expander>
@@ -178,7 +179,7 @@
                                 <ImageBrush ImageSource="{Binding Img_poster}" Stretch="Fill" />
                             </DockPanel.Background>
                             <Canvas>
-                                <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="Solid_CheckCircle" Height="20" Visibility="{Binding Watched, Converter={StaticResource BooleanToVisibilityConverter}}" ToolTip="Watched"/>
+                                <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
                             </Canvas>
                             <TextBlock DockPanel.Dock="Bottom" Text="{Binding DisplayName}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
                                 <TextBlock.Background>

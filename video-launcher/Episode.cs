@@ -284,7 +284,7 @@ namespace video_launcher
             get { return _toggleWatched ?? (_toggleWatched = new CommandHandler(() => ToggleWatched(), () => CanExecuteEditNFO)); }
         }
 
-        public void ToggleWatched(string target = null)
+        public void ToggleWatched(string target = null, bool fromParent = false)
         {
             if (target != null)
             {
@@ -339,7 +339,10 @@ namespace video_launcher
 
             nfo.Save(File_nfo);
 
-            Parent.EpisodeWatched();
+            if (!fromParent)
+            {
+                Parent.EpisodeWatched();
+            }
 
             NotifyPropertyChanged("Watched");
             NotifyPropertyChanged("LastWatched");

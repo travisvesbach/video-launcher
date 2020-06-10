@@ -25,6 +25,7 @@ namespace video_launcher
         public string File_nfo { get; set; }
         public BitmapImage Img_poster { get; set; }
         public string Img_thumb { get; set; }
+        public string Img_fanart { get; set; }
         public List<string> Subtitles = new List<string>();
         public string SubtitlesString { get; set; }
 
@@ -140,6 +141,9 @@ namespace video_launcher
                 case "thumb":
                     Img_thumb = path;
                     break;
+                case "fanart":
+                    Img_fanart = path;
+                    break;
             }
         }
 
@@ -249,7 +253,18 @@ namespace video_launcher
 
         public BitmapImage Thumb
         {
-            get { return (Img_thumb != null) ? new BitmapImage(new Uri(Img_thumb, UriKind.Absolute)) : null; }
+            get
+            {
+                if (Img_thumb != null)
+                {
+                    return new BitmapImage(new Uri(Img_thumb, UriKind.Absolute));
+                }
+                else if (Img_fanart != null)
+                {
+                    return new BitmapImage(new Uri(Img_fanart, UriKind.Absolute));
+                }
+                return null;
+            }
         }
 
         public string WatchedToggleText

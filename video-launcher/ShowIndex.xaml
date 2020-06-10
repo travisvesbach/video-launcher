@@ -136,6 +136,7 @@
                     <Expander Name="exWatched" Header="Watched" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
                         <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
                             <RadioButton GroupName="rbgWatched" Name="rbAllWatched" Click="ClickWatchedRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgWatched" Name="rbInProgress" Click="ClickWatchedRadio" Content="In Progress" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                             <RadioButton GroupName="rbgWatched" Name="rbUnwatched" Click="ClickWatchedRadio" Content="Unwatched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                             <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                         </ItemsControl>

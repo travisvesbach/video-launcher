@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -29,6 +30,7 @@ namespace video_launcher
         public string File_nfo { get; set; }
         public BitmapImage Img_poster { get; set; }
         public string Img_thumb { get; set; }
+        public string Img_fanart { get; set; }
 
         //from nfo file
         public string Title { get; set; }
@@ -152,6 +154,9 @@ namespace video_launcher
                 case "thumb":
                     Img_thumb = path;
                     break;
+                case "fanart":
+                    Img_fanart = path;
+                    break;
             }
         }
 
@@ -238,7 +243,18 @@ namespace video_launcher
 
         public BitmapImage Thumb
         {
-            get { return (Img_thumb != null) ? new BitmapImage(new Uri(Img_thumb, UriKind.Absolute)) : null; }
+            get
+            {
+                if (Img_thumb != null)
+                {
+                    return new BitmapImage(new Uri(Img_thumb, UriKind.Absolute));
+                }
+                else if (Img_fanart != null)
+                {
+                    return new BitmapImage(new Uri(Img_fanart, UriKind.Absolute));
+                }
+                return null;
+            }
         }
 
         public string WatchedToggleText
@@ -333,6 +349,11 @@ namespace video_launcher
 
         public void ToggleWatched(string target = null)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("This will update all its episodes too. Continue?", DisplayName + "'s watched status change", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.No)
+            {
+                return;
+            }
 
             if (target != null)
             {
@@ -394,7 +415,7 @@ namespace video_launcher
             string episodeTarget = (Watched == "true" ? "watched" : "unwatched");
             foreach (Episode episode in Episodes)
             {
-                episode.ToggleWatched(episodeTarget);
+                episode.ToggleWatched(episodeTarget, true);
             }
 
             NotifyPropertyChanged("Watched");
@@ -408,6 +429,7 @@ namespace video_launcher
 
         public void EpisodeWatched()
         {
+
             int watchedCount = 0;
             foreach (Episode episode in Episodes)
             {
@@ -416,6 +438,8 @@ namespace video_launcher
                     watchedCount++;
                 }
             }
+
+            Console.WriteLine("watched count: " + watchedCount.ToString() + "    episode count:" + EpisodeCount.ToString());
 
             if (watchedCount == 0)
             {
@@ -452,7 +476,7 @@ namespace video_launcher
             // if watched == true: create, set, and add lastwatched node; else remove node
             LastWatched = DateTime.Now;
             XmlNode nfoLastWatched = nfo.SelectSingleNode("//tvshow/lastwatched");
-            if (Watched == "true")
+            if (Watched == "true" || Watched == "in-progress")
             {
                 if (nfoLastWatched == null)
                 {

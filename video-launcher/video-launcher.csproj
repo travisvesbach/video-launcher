@@ -36,11 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FontAwesome5, Version=2.0.6.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome5.2.0.6\lib\net40\FontAwesome5.dll</HintPath>
+    <Reference Include="FontAwesome5, Version=2.0.8.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome5.2.0.8\lib\net40\FontAwesome5.dll</HintPath>
     </Reference>
-    <Reference Include="FontAwesome5.Net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome5.2.0.6\lib\net40\FontAwesome5.Net.dll</HintPath>
+    <Reference Include="FontAwesome5.Net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome5.2.0.8\lib\net40\FontAwesome5.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

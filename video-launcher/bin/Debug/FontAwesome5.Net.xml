@@ -53,6 +53,16 @@
             Identifies the FontAwesome.WPF.FontAwesome.SpinDuration dependency property.
             </summary>
         </member>
+        <member name="F:FontAwesome5.FontAwesome.PulseProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.Pulse dependency property.
+            </summary>
+        </member>
+        <member name="F:FontAwesome5.FontAwesome.PulseDurationProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.PulseDuration dependency property.
+            </summary>
+        </member>
         <member name="F:FontAwesome5.FontAwesome.RotationProperty">
             <summary>
             Identifies the FontAwesome.WPF.FontAwesome.Rotation dependency property.
@@ -76,6 +86,16 @@
         <member name="P:FontAwesome5.FontAwesome.SpinDuration">
             <summary>
             Gets or sets the duration of the spinning animation (in seconds). This will stop and start the spin animation.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.FontAwesome.Pulse">
+            <summary>
+            Gets or sets the current pulse animation of the icon.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.FontAwesome.PulseDuration">
+            <summary>
+            Gets or sets the duration of the pulse animation (in seconds). This will stop and start the pulse animation.
             </summary>
         </member>
         <member name="P:FontAwesome5.FontAwesome.Rotation">
@@ -148,6 +168,16 @@
             Identifies the FontAwesome.WPF.ImageAwesome.Spin dependency property.
             </summary>
         </member>
+        <member name="F:FontAwesome5.ImageAwesome.PulseProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.Pulse dependency property.
+            </summary>
+        </member>
+        <member name="F:FontAwesome5.ImageAwesome.PulseDurationProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.PulseDuration dependency property.
+            </summary>
+        </member>
         <member name="F:FontAwesome5.ImageAwesome.RotationProperty">
             <summary>
             Identifies the FontAwesome.WPF.ImageAwesome.Rotation dependency property.
@@ -176,6 +206,16 @@
         <member name="P:FontAwesome5.ImageAwesome.SpinDuration">
             <summary>
             Gets or sets the duration of the spinning animation (in seconds). This will stop and start the spin animation.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.ImageAwesome.Pulse">
+            <summary>
+            Gets or sets the current pulse animation of the icon.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.ImageAwesome.PulseDuration">
+            <summary>
+            Gets or sets the duration of the pulse animation (in seconds). This will stop and start the pulse animation.
             </summary>
         </member>
         <member name="P:FontAwesome5.ImageAwesome.Rotation">
@@ -217,6 +257,16 @@
             Identifies the FontAwesome.WPF.SvgAwesome.Spin dependency property.
             </summary>
         </member>
+        <member name="F:FontAwesome5.SvgAwesome.PulseProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.Pulse dependency property.
+            </summary>
+        </member>
+        <member name="F:FontAwesome5.SvgAwesome.PulseDurationProperty">
+            <summary>
+            Identifies the FontAwesome.WPF.FontAwesome.PulseDuration dependency property.
+            </summary>
+        </member>
         <member name="F:FontAwesome5.SvgAwesome.RotationProperty">
             <summary>
             Identifies the FontAwesome.WPF.SvgAwesome.Rotation dependency property.
@@ -245,6 +295,16 @@
         <member name="P:FontAwesome5.SvgAwesome.SpinDuration">
             <summary>
             Gets or sets the duration of the spinning animation (in seconds). This will stop and start the spin animation.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.SvgAwesome.Pulse">
+            <summary>
+            Gets or sets the current pulse animation of the icon.
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.SvgAwesome.PulseDuration">
+            <summary>
+            Gets or sets the duration of the pulse animation (in seconds). This will stop and start the pulse animation.
             </summary>
         </member>
         <member name="P:FontAwesome5.SvgAwesome.Rotation">
@@ -289,6 +349,25 @@
             </summary>
             <typeparam name="T">FrameworkElement and ISpinable</typeparam>
             <param name="control">Control to stop the rotation.</param>
+        </member>
+        <member name="F:FontAwesome5.Extensions.ControlExtensions.PulseStoryBoardName">
+            <summary>
+            The key used for storing the spinner Storyboard.
+            </summary>
+        </member>
+        <member name="M:FontAwesome5.Extensions.ControlExtensions.BeginPulse``1(``0)">
+            <summary>
+            Start the pulse animation
+            </summary>
+            <typeparam name="T">FrameworkElement and IPulsable</typeparam>
+            <param name="control">Control to apply the pulse animation</param>
+        </member>
+        <member name="M:FontAwesome5.Extensions.ControlExtensions.StopPulse``1(``0)">
+            <summary>
+            Stop the pulse animation 
+            </summary>
+            <typeparam name="T">FrameworkElement and IPulsable</typeparam>
+            <param name="control">Control to stop the pulse animation</param>
         </member>
         <member name="M:FontAwesome5.Extensions.ControlExtensions.SetRotation``1(``0)">
             <summary>
@@ -347,6 +426,21 @@
         <member name="P:FontAwesome5.IFlippable.FlipOrientation">
             <summary>
             Gets or sets the current orientation (horizontal, vertical).
+            </summary>
+        </member>
+        <member name="T:FontAwesome5.IPulsable">
+            <summary>
+            Represents a control that can have the pulse animation
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.IPulsable.Pulse">
+            <summary>
+            Gets or sets the state of the pulse animation
+            </summary>
+        </member>
+        <member name="P:FontAwesome5.IPulsable.PulseDuration">
+            <summary>
+            Gets or sets the duration of the pulse animation
             </summary>
         </member>
         <member name="T:FontAwesome5.IRotatable">

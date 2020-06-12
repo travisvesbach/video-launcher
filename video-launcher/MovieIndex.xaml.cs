@@ -105,6 +105,8 @@ namespace video_launcher
             if (wnd.MovieDirectory.Length > 0 && Movies.Count == 0)
             {
                 btRefresh.IsEnabled = false;
+                tbRefresh.Text = "Loading";
+                btRefresh.Background = new SolidColorBrush(Colors.Gray);
                 BackgroundWorker worker = new BackgroundWorker();
                 worker.WorkerReportsProgress = true;
                 worker.DoWork += (obj, e) => ProcessDirectory(wnd.MovieDirectory);
@@ -170,6 +172,8 @@ namespace video_launcher
             wnd.Movies = Movies;
             wnd.MovieGenres = Genres;
             btRefresh.IsEnabled = true;
+            tbRefresh.Text = "Reload";
+            btRefresh.Background = wnd.ButtonColor;
         }
 
         public void SetCurrentFilters()
@@ -220,6 +224,8 @@ namespace video_launcher
             CheckedGenres = new List<string>();
             SearchText = "";
             tbSearch.Text = "";
+            WatchedFilter = "All";
+            rbAllWatched.IsChecked = true;
             NotifyPropertyChanged("MovieGenres");
             NotifyPropertyChanged("FilteredMovies");
         }

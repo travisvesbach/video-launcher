@@ -32,7 +32,7 @@ namespace video_launcher
             ShowData = wnd.ShowToShow;
             if (ShowData.EpisodeCount <= 0)
             {
-                ShowData.ProcessSeasons();
+                ShowData.ProcessSeasonsWorker();
             }
             DataContext = this;
         }

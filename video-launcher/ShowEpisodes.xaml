@@ -89,123 +89,115 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Button Click="ClickShowShow">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center">About</TextBlock>
+                    </Grid>
+                </Button>
+                <TextBlock Grid.Column="1" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding ShowData.DisplayName}" />
             </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Button Click="ClickShowShow" HorizontalAlignment="Left">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="20" Margin="10,0">
+                <ItemsControl ItemsSource="{Binding Seasons}" Background="Transparent" BorderThickness="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Click="ClickSetSeason" Style="{StaticResource EpisodeButton}">
+                                <TextBlock FontSize="18" HorizontalAlignment="Center">
+                                        <Run Text="Season "/>
+                                        <Run Name="SeasonNum" Text="{Binding Path=.}"/>
+                                </TextBlock>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <ScrollViewer Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto"  Margin="10,0">
+                <ItemsControl ItemsSource="{Binding FilteredEpisodes}" Background="Transparent" BorderThickness="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Click="ClickSetEpisode" Style="{StaticResource EpisodeButton}">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">
+                                            <MenuItem.Icon>
+                                                <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}" Visibility="{Binding File_nfo, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding CommandPlay}"/>
+                                </Button.InputBindings>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding EpisodeNumberString}" FontSize="18" TextAlignment="Left"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding DisplayName}" FontSize="18"/>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Grid Grid.RowSpan="2" Grid.Column="3"  Grid.ColumnSpan="2" Margin="15" Visibility="{Binding SelectedEpisode, Converter={StaticResource NullToVisibilityConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding SelectedEpisode.DisplayName}" HorizontalAlignment="Center" FontSize="30" TextWrapping="Wrap"/>
+                <Image Grid.Row="1" Source="{Binding SelectedEpisode.Thumb}" Margin="15,0,0,0" MaxHeight="300"/>
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding SelectedEpisode.Plot}" TextWrapping="Wrap" FontSize="18" Margin="15" TextAlignment="Center"/>
+                </ScrollViewer>
+                <Grid Grid.Row="3" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="16">
+                        <Run Text="Aired:" Foreground="Aqua"/>
+                        <Run Text="{Binding SelectedEpisode.Aired}" />
+                    </TextBlock>
+                    <TextBlock Grid.Column="2" FontSize="16" HorizontalAlignment="Right" Visibility="{Binding SelectedEpisode.LastWatchedString, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Run Text="Last Watched:" Foreground="Aqua"/>
+                        <Run Text="{Binding SelectedEpisode.LastWatchedString}" />
+                    </TextBlock>
+                </Grid>
+                <WrapPanel Grid.Row="4">
+                    <Button Command="{Binding SelectedEpisode.CommandPlay}" >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center">About</TextBlock>
+                            <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
                         </Grid>
                     </Button>
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="20" Margin="10,0">
-                        <ItemsControl ItemsSource="{Binding Seasons}" Background="Transparent" BorderThickness="0">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Click="ClickSetSeason" Style="{StaticResource EpisodeButton}">
-                                        <TextBlock FontSize="18" HorizontalAlignment="Center">
-                                            <Run Text="Season "/>
-                                            <Run Name="SeasonNum" Text="{Binding Path=.}"/>
-                                        </TextBlock>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
-                <ScrollViewer Grid.Column="1"  Grid.ColumnSpan="2" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto"  Margin="10,0">
-                    <ItemsControl ItemsSource="{Binding FilteredEpisodes}" Background="Transparent" BorderThickness="0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Click="ClickSetEpisode" Style="{StaticResource EpisodeButton}">
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">
-                                                <MenuItem.Icon>
-                                                    <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}" Visibility="{Binding File_nfo, Converter={StaticResource StringToVisibilityConverter}}"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                    <Button.InputBindings>
-                                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding CommandPlay}"/>
-                                    </Button.InputBindings>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="40"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding EpisodeNumberString}" FontSize="18" TextAlignment="Left"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding DisplayName}" FontSize="18"/>
-                                    </Grid>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-                <Grid Grid.Column="3"  Grid.ColumnSpan="2" Margin="15" Visibility="{Binding SelectedEpisode, Converter={StaticResource NullToVisibilityConverter}}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding SelectedEpisode.DisplayName}" HorizontalAlignment="Center" FontSize="24" TextWrapping="Wrap"/>
-                    <Image Grid.Row="1" Source="{Binding SelectedEpisode.Thumb}" Margin="15,0,0,0" MaxHeight="300"/>
-                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-                        <TextBlock Text="{Binding SelectedEpisode.Plot}" TextWrapping="Wrap" FontSize="18" Margin="15" TextAlignment="Center"/>
-                    </ScrollViewer>
-                    <Grid Grid.Row="3" Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <!--<fa5:SvgAwesome Foreground="White" Icon="Solid_CalendarAlt" Height="20" Margin="5,0"/>-->
-                        <TextBlock FontSize="16">
-                            <Run Text="Aired:" Foreground="Aqua"/>
-                            <Run Text="{Binding SelectedEpisode.Aired}" />
-                        </TextBlock>
-                        <TextBlock Grid.Column="2" FontSize="16" HorizontalAlignment="Right" Visibility="{Binding SelectedEpisode.LastWatchedString, Converter={StaticResource StringToVisibilityConverter}}">
-                            <Run Text="Last Watched:" Foreground="Aqua"/>
-                            <Run Text="{Binding SelectedEpisode.LastWatchedString}" />
-                        </TextBlock>
-                    </Grid>
-                    <WrapPanel Grid.Row="4">
-                        <Button Command="{Binding SelectedEpisode.CommandPlay}" >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
-                                <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
-                            </Grid>
-                        </Button>
-                    </WrapPanel>
-                </Grid>
+                </WrapPanel>
             </Grid>
         </Grid>
     </Grid>

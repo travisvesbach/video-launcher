@@ -107,6 +107,8 @@ namespace video_launcher
             if (wnd.ShowDirectory.Length > 0 && Shows.Count == 0)
             {
                 btRefresh.IsEnabled = false;
+                tbRefresh.Text = "Loading";
+                btRefresh.Background = new SolidColorBrush(Colors.Gray);
                 BackgroundWorker worker = new BackgroundWorker();
                 worker.WorkerReportsProgress = true;
                 worker.DoWork += (obj, e) => ProcessDirectory(wnd.ShowDirectory);
@@ -135,7 +137,7 @@ namespace video_launcher
                 imported.Add(show);
                 counter++;
 
-                if (counter % 25 == 0)
+                if (counter % 40 == 0)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
@@ -180,6 +182,8 @@ namespace video_launcher
                 wnd.AnimeGenres = Genres;
             }
             btRefresh.IsEnabled = true;
+            tbRefresh.Text = "Reload";
+            btRefresh.Background = wnd.ButtonColor;
         }
 
         public void SetCurrentFilters()
@@ -230,6 +234,8 @@ namespace video_launcher
             CheckedGenres = new List<string>();
             SearchText = "";
             tbSearch.Text = "";
+            WatchedFilter = "All";
+            rbAllWatched.IsChecked = true;
             NotifyPropertyChanged("showGenres");
             NotifyPropertyChanged("FilteredShows");
         }

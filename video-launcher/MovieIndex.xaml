@@ -110,7 +110,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
-                    <TextBlock Grid.Column="1" Text="Reload" VerticalAlignment="Center" />
+                    <TextBlock Name="tbRefresh" Grid.Column="1" Text="Reload" VerticalAlignment="Center" />
                 </Grid>
             </Button>
         </Grid>

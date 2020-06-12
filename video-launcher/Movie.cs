@@ -135,7 +135,14 @@ namespace video_launcher
             switch (fileName)
             {
                 case "poster":
-                    Img_poster = new BitmapImage(new Uri(path, UriKind.Absolute));
+                    Img_poster = new BitmapImage();
+                    Img_poster.BeginInit();
+                    Img_poster.UriSource = new Uri(path, UriKind.Absolute);
+                    Img_poster.CreateOptions = BitmapCreateOptions.DelayCreation;
+                    Img_poster.CacheOption = BitmapCacheOption.None;
+                    Img_poster.DecodePixelWidth = 185;
+                    Img_poster.DecodePixelHeight = 278;
+                    Img_poster.EndInit();
                     Img_poster.Freeze();
                     break;
                 case "thumb":

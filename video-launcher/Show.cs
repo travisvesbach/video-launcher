@@ -109,6 +109,16 @@ namespace video_launcher
             }
         }
 
+        // Use background worker to call ProcessSeasons
+        public void ProcessSeasonsWorker()
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += (obj, e) => ProcessSeasons();
+            worker.RunWorkerAsync();
+        }
+
+        // Process all the season directories and create a ObservableCollection of episodes
         public void ProcessSeasons()
         {
             string[] subdirectoryEntries = Directory.GetDirectories(ShowDirectory.FullName);
@@ -139,6 +149,9 @@ namespace video_launcher
             SeasonCountString = seasonCounter.ToString();
             EpisodeCount = episodeCounter;
             EpisodeCountString = episodeCounter.ToString();
+            NotifyPropertyChanged("SeasonCountString");
+            NotifyPropertyChanged("EpisodeCountString");
+
         }
 
         // Set image path based on path file name
@@ -414,16 +427,11 @@ namespace video_launcher
             }
             nfo.Save(File_nfo);
 
-            //edit watched status in all episodes
-            if (Episodes == null)
-            {
-                ProcessSeasons();
-            }
-            string episodeTarget = (Watched == "true" ? "watched" : "unwatched");
-            foreach (Episode episode in Episodes)
-            {
-                episode.ToggleWatched(episodeTarget, true);
-            }
+            // use background worker to edit watched status in all episodes
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += (obj, e) => ToggleEpisodesWatched();
+            worker.RunWorkerAsync();
 
             NotifyPropertyChanged("Watched");
             NotifyPropertyChanged("LastWatched");
@@ -434,6 +442,21 @@ namespace video_launcher
             NotifyPropertyChanged("WatchedContextIcon");
         }
 
+        //edit watched status in all episodes
+        public void ToggleEpisodesWatched()
+        {
+            if (Episodes == null)
+            {
+                ProcessSeasons();
+            }
+            string episodeTarget = (Watched == "true" ? "watched" : "unwatched");
+            foreach (Episode episode in Episodes)
+            {
+                episode.ToggleWatched(episodeTarget, true);
+            }
+        }
+
+        //called from episode when an episode watched status is changed
         public void EpisodeWatched()
         {
 

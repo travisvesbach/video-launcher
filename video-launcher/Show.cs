@@ -24,6 +24,7 @@ namespace video_launcher
         public int EpisodeCount { get; set; }
         public string EpisodeCountString { get; set; }
         public ObservableCollection<Episode> Episodes { get; set; }
+        public bool Specials { get; set; }
 
         //files in directory
         public string File_video { get; set; }
@@ -141,6 +142,22 @@ namespace video_launcher
                             episodeCounter++;
                             seasonEpisodeCounter++;
                             Episodes.Add(new Episode(fileName, seasonCounter, seasonEpisodeCounter, this));
+                        }
+                    }
+                }
+                if (dir.Name.Contains("Special"))
+                {
+                    Specials = true;
+                    int specialEpisodeCounter = 0;
+                    string[] SeasonFiles = Directory.GetFiles(dir.FullName);
+                    foreach (string fileName in SeasonFiles)
+                    {
+                        string fileExtension = Path.GetExtension(fileName);
+                        if (fileExtension != ".nfo" && fileExtension != ".jpg" && fileExtension != ".png" && fileExtension != ".gif")
+                        {
+                            episodeCounter++;
+                            specialEpisodeCounter++;
+                            Episodes.Add(new Episode(fileName, 0, specialEpisodeCounter, this));
                         }
                     }
                 }
@@ -299,7 +316,7 @@ namespace video_launcher
                 }
                 else if (Watched == "in-progress")
                 {
-                    return "Solid_Spinner";
+                    return "Solid_Eye";
                 }
                 else
                 {

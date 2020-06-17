@@ -118,10 +118,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Click="ClickSetSeason" Style="{StaticResource EpisodeButton}">
-                                <TextBlock FontSize="18" HorizontalAlignment="Center">
-                                        <Run Text="Season "/>
-                                        <Run Name="SeasonNum" Text="{Binding Path=.}"/>
-                                </TextBlock>
+                                <TextBlock FontSize="18" HorizontalAlignment="Center" Text="{Binding Name}"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

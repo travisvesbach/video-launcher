@@ -54,14 +54,27 @@ namespace video_launcher
             }
         }
 
-        public List<int> Seasons
+        public List<Season> Seasons
         {
             get
             {
-                List<int> seasons = new List<int>();
+                List<Season> seasons = new List<Season>();
                 for (int x = 0; x < ShowData.SeasonCount; x++)
                 {
-                    seasons.Add(x + 1);
+                    int seasonNum = x + 1;
+                    seasons.Add(new Season() {
+                        Name = "Season " + seasonNum.ToString(),
+                        Number = seasonNum
+                    });
+                }
+                if (ShowData.Specials)
+                {
+                    seasons.Add(new Season()
+                    {
+                        Name = "Specials",
+                        Number = 0,
+                        IsSpecial = true
+                    });
                 }
                 return seasons;
             }
@@ -79,8 +92,9 @@ namespace video_launcher
 
         private void ClickSetSeason(object sender, RoutedEventArgs e)
         {
-            string newSeason = ((Run)(sender as Button).FindName("SeasonNum")).Text;
-            CurrentSeason = Int32.Parse(newSeason);
+            Button btn = sender as Button;
+            Season dataObject = btn.DataContext as Season;
+            CurrentSeason = dataObject.Number;
             NotifyPropertyChanged("FilteredEpisodes");
         }
 

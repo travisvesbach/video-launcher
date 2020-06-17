@@ -137,7 +137,7 @@ namespace video_launcher
                 imported.Add(show);
                 counter++;
 
-                if (counter % 40 == 0)
+                if (counter % 25 == 0)
                 {
                     this.Dispatcher.Invoke(() =>
                     {

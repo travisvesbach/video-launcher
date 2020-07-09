@@ -98,7 +98,7 @@ namespace video_launcher
                 }
             } else
             {
-                Plot = "No .nfo file found in the movie directory";
+                CreateNFO();
             }
             DisplayName = ((Title != null && Year != null) ? Title + " (" + Year + ")" : Name);
         }
@@ -247,6 +247,34 @@ namespace video_launcher
                         LastWatchedString = LastWatched.Value.ToString("d");
                         break;
                 }
+            }
+        }
+
+        // Create nfo file with explanation plot and watched status
+        public void CreateNFO()
+        {
+            File_nfo = MovieDirectory.FullName + "\\movie.nfo";
+            XmlDocument nfo = new XmlDocument();
+            nfo.AppendChild(nfo.CreateXmlDeclaration("1.0", "UTF-8", null));
+            XmlNode movieNode = nfo.CreateElement("movie");
+            nfo.AppendChild(movieNode);
+
+            Plot = ".nfo file not found. This simple one was created to track watched and last watched variables.  If you create a .nfo file later, it might overwrite these values.";
+            Watched = "false";
+
+            XmlNode plotNode = movieNode.AppendChild(nfo.CreateElement("plot"));
+            plotNode.InnerText = Plot;
+            XmlNode watchedNode = movieNode.AppendChild(nfo.CreateElement("watched"));
+            watchedNode.InnerText = Watched;
+
+            try
+            {
+                nfo.Save(File_nfo);
+            }
+            catch (Exception ex)
+            {
+                Plot = "nfo file not found and could not create a new one" + ex.Message;
+                return;
             }
         }
 

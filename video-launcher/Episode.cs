@@ -13,8 +13,6 @@ namespace video_launcher
 {
     public class Episode : INotifyPropertyChanged
     {
-        // directory class
-        public DirectoryInfo MovieDirectory { get; set; }
 
         public string Name { get; set; }
         public string Video_type { get; set; }
@@ -79,7 +77,7 @@ namespace video_launcher
             }
             else
             {
-                Plot = "No .nfo file found for this episode";
+                CreateNFO();
             }
             
             DisplayName = (Title != null ? Title : Name);
@@ -173,6 +171,38 @@ namespace video_launcher
                         LastWatchedString = LastWatched.Value.ToString("d");
                         break;
                 }
+            }
+        }
+
+        // Create nfo file with explanation plot and watched status
+        public void CreateNFO()
+        {
+            string directory = Path.GetDirectoryName(File_video);
+            File_nfo = directory + "\\" + Name + ".nfo";
+            XmlDocument nfo = new XmlDocument();
+            nfo.AppendChild(nfo.CreateXmlDeclaration("1.0", "UTF-8", null));
+            XmlNode episodedetailsNode = nfo.CreateElement("episodedetails");
+            nfo.AppendChild(episodedetailsNode);
+
+            Plot = ".nfo file not found. This simple one was created to track watched and last watched variables.  If you create a .nfo file later, it might overwrite these values.";
+            Watched = "false";
+
+            NotifyPropertyChanged(Plot);
+            NotifyPropertyChanged(Watched);
+
+            XmlNode plotNode = episodedetailsNode.AppendChild(nfo.CreateElement("plot"));
+            plotNode.InnerText = Plot;
+            XmlNode watchedNode = episodedetailsNode.AppendChild(nfo.CreateElement("watched"));
+            watchedNode.InnerText = Watched;
+
+            try
+            {
+                nfo.Save(File_nfo);
+            }
+            catch (Exception ex)
+            {
+                Plot = "nfo file not found and could not create a new one" + ex.Message;
+                return;
             }
         }
 

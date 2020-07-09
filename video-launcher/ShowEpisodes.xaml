@@ -174,7 +174,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock FontSize="16">
+                    <TextBlock FontSize="16" Visibility="{Binding SelectedEpisode.Aired, Converter={StaticResource StringToVisibilityConverter}}">
                         <Run Text="Aired:" Foreground="Aqua"/>
                         <Run Text="{Binding SelectedEpisode.Aired}" />
                     </TextBlock>

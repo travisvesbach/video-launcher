@@ -163,7 +163,7 @@ namespace video_launcher
                     case "aired":
                         Aired = DateTime.Parse(node.InnerText).ToString("d");
                         break;
-                    case "watched":
+                    case "iswatched":
                         Watched = node.InnerText;
                         break;
                     case "lastwatched":
@@ -184,7 +184,7 @@ namespace video_launcher
             XmlNode episodedetailsNode = nfo.CreateElement("episodedetails");
             nfo.AppendChild(episodedetailsNode);
 
-            Plot = ".nfo file not found. This simple one was created to track watched and last watched variables.  If you create a .nfo file later, it might overwrite these values.";
+            Plot = ".nfo file not found. This simple one was created to track iswatched and lastwatched variables.  If you create a .nfo file later, it might overwrite these values.";
             Watched = "false";
 
             NotifyPropertyChanged(Plot);
@@ -192,8 +192,8 @@ namespace video_launcher
 
             XmlNode plotNode = episodedetailsNode.AppendChild(nfo.CreateElement("plot"));
             plotNode.InnerText = Plot;
-            XmlNode watchedNode = episodedetailsNode.AppendChild(nfo.CreateElement("watched"));
-            watchedNode.InnerText = Watched;
+            XmlNode iswatchedNode = episodedetailsNode.AppendChild(nfo.CreateElement("iswatched"));
+            iswatchedNode.InnerText = Watched;
 
             try
             {
@@ -336,13 +336,13 @@ namespace video_launcher
                 return;
             }
 
-            // create watched node if it doesn't exist; save new watched status
-            XmlNode nfoWatched = nfo.SelectSingleNode("//episodedetails/watched");
-            if (nfoWatched == null)
+            // create iswatched node if it doesn't exist; save new watched status
+            XmlNode nfoIsWatched = nfo.SelectSingleNode("//episodedetails/iswatched");
+            if (nfoIsWatched == null)
             {
-                nfoWatched = nfo.SelectSingleNode("//episodedetails").AppendChild(nfo.CreateElement("watched"));
+                nfoIsWatched = nfo.SelectSingleNode("//episodedetails").AppendChild(nfo.CreateElement("iswatched"));
             }
-            nfoWatched.InnerText = Watched.ToString().ToLower();
+            nfoIsWatched.InnerText = Watched.ToString().ToLower();
 
             // if watched == true: create, set, and add lastwatched node; else remove node
             LastWatched = DateTime.Now;

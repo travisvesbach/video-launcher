@@ -80,7 +80,7 @@ namespace video_launcher
                     {
                         if (show.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-                            if ((WatchedFilter == "Watched" && show.Watched == "true") || (WatchedFilter == "Unwatched" && show.Watched == "false") || (WatchedFilter == "In Progress" && show.Watched == "in-progress") || (WatchedFilter == "All"))
+                            if ((WatchedFilter == "Watched" && show.Watched == "true") || (WatchedFilter == "Unwatched" && (show.Watched == "false" || show.Watched == null)) || (WatchedFilter == "In Progress" && show.Watched == "in-progress") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(show);
                             }

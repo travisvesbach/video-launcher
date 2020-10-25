@@ -136,9 +136,15 @@ namespace video_launcher
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
             ObservableCollection<Show> imported = new ObservableCollection<Show>();
             int counter = 0;
+            int total = subdirectoryEntries.Length;
             foreach (string subdirectory in subdirectoryEntries)
             {
                 Show show = new Show(new DirectoryInfo(subdirectory));
+                int percent = (int)Math.Round((double)(100 * counter) / total);
+                this.Dispatcher.Invoke(() =>
+                {
+                    tbRefresh.Text = "Loading ... " + percent + "%";
+                });
                 if (show.Genres != null && show.Genres.Count > 0)
                 {
                     foreach (string genre in show.Genres)

@@ -43,6 +43,7 @@ namespace video_launcher
         public Show ShowToShow = null;
 
         public string WatchedFilter = "All";
+        public string Sort = "Alphabetical";
 
         public event PropertyChangedEventHandler PropertyChanged;
 

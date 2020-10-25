@@ -141,6 +141,12 @@
                             <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                         </ItemsControl>
                     </Expander>
+                    <Expander Name="exSort" Header="Sort" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
+                        <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
+                            <RadioButton GroupName="rbgSort" Name="rbAlphabetical" Click="ClickSortRadio" Content="Alphabetical" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgSort" Name="rbYear" Click="ClickSortRadio" Content="Year" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                        </ItemsControl>
+                    </Expander>
                     <Button Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
                 </StackPanel>
             </ScrollViewer>

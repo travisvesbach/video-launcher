@@ -30,6 +30,7 @@ namespace video_launcher
         public List<Genre> Genres = new List<Genre>();
         public List<string> CheckedGenres = new List<string>();
         public string WatchedFilter = "All";
+        public string Sort = "Alphabetical";
         public string SearchText = "";
 
         private MainWindow wnd = (MainWindow)Application.Current.MainWindow;
@@ -41,6 +42,7 @@ namespace video_launcher
             Movies = wnd.Movies;
             Genres = wnd.MovieGenres;
             WatchedFilter = wnd.WatchedFilter;
+            Sort = wnd.Sort;
 
 
             DataContext = this;
@@ -86,7 +88,13 @@ namespace video_launcher
                     }
                 }
 
-                return filtered;
+                ObservableCollection<Movie> sorted = new ObservableCollection<Movie>(filtered.OrderBy(x => x.DisplayName).ToList());
+                if (Sort == "Year")
+                {
+                    sorted = new ObservableCollection<Movie>(sorted.OrderBy(x => x.Year).ToList());
+                }
+
+                return sorted;
             }
         }
 
@@ -215,6 +223,13 @@ namespace video_launcher
         {
             WatchedFilter = (sender as RadioButton).Content.ToString();
             wnd.WatchedFilter = WatchedFilter;
+            NotifyPropertyChanged("FilteredMovies");
+        }
+
+        public void ClickSortRadio(object sender, RoutedEventArgs e)
+        {
+            Sort = (sender as RadioButton).Content.ToString();
+            wnd.Sort = Sort;
             NotifyPropertyChanged("FilteredMovies");
         }
 

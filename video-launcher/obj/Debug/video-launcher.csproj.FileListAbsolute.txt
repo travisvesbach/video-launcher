@@ -9,6 +9,9 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\Home.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MainWindow.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieDetails.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieIndex.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.g.cs
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\App.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher_MarkupCompile.cache
@@ -18,6 +21,9 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\Home.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MainWindow.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieDetails.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\MovieIndex.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.baml
+D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.g.resources
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video_launcher.Options.resources
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video_launcher.Properties.Resources.resources
@@ -25,10 +31,4 @@ D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csproj.CoreCompileInputs.cache
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.exe
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.pdb
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.g.cs
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowIndex.baml
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.g.cs
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowDetails.baml
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.g.cs
-D:\development\dev\video-launcher\video-launcher\obj\Debug\ShowEpisodes.baml
 D:\development\dev\video-launcher\video-launcher\obj\Debug\video-launcher.csprojResolveAssemblyReference.cache

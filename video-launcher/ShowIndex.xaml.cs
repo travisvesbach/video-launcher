@@ -95,6 +95,11 @@ namespace video_launcher
                 {
                     sorted = new ObservableCollection<Show>(sorted.OrderBy(x => x.Year).ToList());
                 }
+                else if (Sort == "Last Watched")
+                {
+                    sorted = new ObservableCollection<Show>(sorted.OrderBy(x => x.LastWatched).ToList());
+                    sorted = new ObservableCollection<Show>(sorted.Reverse().ToList());
+                }
 
                 return sorted;
             }
@@ -250,6 +255,7 @@ namespace video_launcher
             SearchText = "";
             tbSearch.Text = "";
             WatchedFilter = "All";
+            Sort = "Alphabetical";
             rbAllWatched.IsChecked = true;
             NotifyPropertyChanged("showGenres");
             NotifyPropertyChanged("FilteredShows");

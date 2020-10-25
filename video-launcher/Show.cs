@@ -188,8 +188,6 @@ namespace video_launcher
             EpisodeCountString = episodeCounter.ToString();
             NotifyPropertyChanged("SeasonCountString");
             NotifyPropertyChanged("EpisodeCountString");
-            NotifyPropertyChanged("Episodes");
-            NotifyPropertyChanged("Seasons");
 
         }
 

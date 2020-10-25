@@ -99,6 +99,7 @@ namespace video_launcher
             ShowToShow = null;
             Genre.UncheckGenres(MovieGenres);
             WatchedFilter = "All";
+            Sort = "Alphabetical";
         }
 
         public string ShowDirectory

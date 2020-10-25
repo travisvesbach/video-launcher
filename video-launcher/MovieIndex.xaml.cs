@@ -88,18 +88,19 @@ namespace video_launcher
                     }
                 }
 
-                ObservableCollection<Movie> sorted = new ObservableCollection<Movie>(filtered.OrderBy(x => x.DisplayName).ToList());
+                filtered = new ObservableCollection<Movie>(filtered.OrderBy(x => x.DisplayName).ToList());
                 if (Sort == "Year")
                 {
-                    sorted = new ObservableCollection<Movie>(sorted.OrderBy(x => x.Year).ToList());
+                    filtered = new ObservableCollection<Movie>(filtered.OrderBy(x => x.Year).ToList());
                 }
                 else if (Sort == "Last Watched")
                 {
-                    sorted = new ObservableCollection<Movie>(sorted.OrderBy(x => x.LastWatched).ToList());
-                    sorted = new ObservableCollection<Movie>(sorted.Reverse().ToList());
+                    filtered = new ObservableCollection<Movie>(filtered.Reverse().ToList());
+                    filtered = new ObservableCollection<Movie>(filtered.OrderBy(x => x.LastWatched).ToList());
+                    filtered = new ObservableCollection<Movie>(filtered.Reverse().ToList());
                 }
 
-                return sorted;
+                return filtered;
             }
         }
 
@@ -251,8 +252,9 @@ namespace video_launcher
             SearchText = "";
             tbSearch.Text = "";
             WatchedFilter = "All";
-            Sort = "Alphabetical";
             rbAllWatched.IsChecked = true;
+            Sort = "Alphabetical";
+            rbAlphabetical.IsChecked = true;
             NotifyPropertyChanged("MovieGenres");
             NotifyPropertyChanged("FilteredMovies");
         }

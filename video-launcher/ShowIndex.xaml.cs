@@ -151,7 +151,6 @@ namespace video_launcher
                     {
                         AddGenre(genre);
                     }
-
                 }
                 imported.Add(show);
                 counter++;

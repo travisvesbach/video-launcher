@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -24,6 +25,7 @@ namespace video_launcher
         public int EpisodeCount { get; set; }
         public string EpisodeCountString { get; set; }
         public ObservableCollection<Episode> Episodes { get; set; }
+        public ObservableCollection<Season> Seasons { get; set; }
         public bool Specials { get; set; }
 
         //files in directory
@@ -126,12 +128,21 @@ namespace video_launcher
             int seasonCounter = 0;
             int episodeCounter = 0;
             Episodes = new ObservableCollection<Episode>();
+            Seasons = new ObservableCollection<Season>();
             foreach (string subdirectory in subdirectoryEntries)
             {
                 DirectoryInfo dir = new DirectoryInfo(subdirectory);
                 if (dir.Name.Contains("Season"))
                 {
                     seasonCounter++;
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        Seasons.Add(new Season()
+                        {
+                            Name = "Season " + seasonCounter.ToString(),
+                            Number = seasonCounter
+                        });
+                    });
                     int seasonEpisodeCounter = 0;
                     string[] SeasonFiles = Directory.GetFiles(dir.FullName);
                     foreach (string fileName in SeasonFiles)
@@ -148,6 +159,15 @@ namespace video_launcher
                 if (dir.Name.Contains("Special"))
                 {
                     Specials = true;
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        Seasons.Add(new Season()
+                        {
+                            Name = "Specials",
+                            Number = 0,
+                            IsSpecial = true
+                        });
+                    });
                     int specialEpisodeCounter = 0;
                     string[] SeasonFiles = Directory.GetFiles(dir.FullName);
                     foreach (string fileName in SeasonFiles)
@@ -168,6 +188,8 @@ namespace video_launcher
             EpisodeCountString = episodeCounter.ToString();
             NotifyPropertyChanged("SeasonCountString");
             NotifyPropertyChanged("EpisodeCountString");
+            NotifyPropertyChanged("Episodes");
+            NotifyPropertyChanged("Seasons");
 
         }
 

@@ -54,32 +54,6 @@ namespace video_launcher
             }
         }
 
-        public List<Season> Seasons
-        {
-            get
-            {
-                List<Season> seasons = new List<Season>();
-                for (int x = 0; x < ShowData.SeasonCount; x++)
-                {
-                    int seasonNum = x + 1;
-                    seasons.Add(new Season() {
-                        Name = "Season " + seasonNum.ToString(),
-                        Number = seasonNum
-                    });
-                }
-                if (ShowData.Specials)
-                {
-                    seasons.Add(new Season()
-                    {
-                        Name = "Specials",
-                        Number = 0,
-                        IsSpecial = true
-                    });
-                }
-                return seasons;
-            }
-        }
-
         public MainWindow Window
         {
             get { return wnd; }

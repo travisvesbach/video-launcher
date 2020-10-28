@@ -79,7 +79,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}"  Margin="10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}"  Margin="0,0,10,0"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center">TV Shows</TextBlock>
                     </Grid>
                 </Button>
@@ -90,7 +90,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="{Binding ShowData.WatchedIcon}" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                        <fa5:SvgAwesome Icon="{Binding ShowData.WatchedIcon}" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                         <TextBlock Grid.Column="1" Text="{Binding ShowData.WatchedButton}" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -146,28 +146,44 @@
 
                 </ItemsControl>
             </Grid>
-            <WrapPanel Grid.Row="4" Margin="15">
-                <Button Click="ClickShowEpisodes" >
+            <Grid Grid.Row="4" Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel>
+                    <Button Click="ClickShowEpisodes" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <fa5:SvgAwesome Icon="Solid_List" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">Episodes</TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Command="{Binding ShowData.CommandOpenTrailer}" Visibility="{Binding ShowData.Trailer, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <fa5:SvgAwesome Icon="Solid_Tape" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">Trailer</TextBlock>
+                        </Grid>
+                    </Button>
+                </WrapPanel>
+                <Button Grid.Column="1" Command="{Binding ShowData.CommandToggleAiring}" ToolTip="{Binding ShowData.AiringToggleText}" Visibility="{Binding ShowData.File_nfo, Converter={StaticResource StringToVisibilityConverter}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_List" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center">Episodes</TextBlock>
+                        <fa5:SvgAwesome Icon="{Binding ShowData.AiringIcon}" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ShowData.AiringButton}" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
-                <Button Command="{Binding ShowData.CommandOpenTrailer}" Visibility="{Binding ShowData.Trailer, Converter={StaticResource StringToVisibilityConverter}}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Tape" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center">Trailer</TextBlock>
-                    </Grid>
-                </Button>
-            </WrapPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

@@ -98,7 +98,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -109,7 +109,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                     <TextBlock Name="tbRefresh" Grid.Column="1" Text="Reload" VerticalAlignment="Center" />
                 </Grid>
             </Button>
@@ -148,7 +148,7 @@
                             <RadioButton GroupName="rbgSort" Name="rbYear" Click="ClickSortRadio" Content="Year" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
                         </ItemsControl>
                     </Expander>
-                    <Button FontSize="20" Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
+                    <Button Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
                 </StackPanel>
             </ScrollViewer>
         </Expander>
@@ -187,7 +187,11 @@
                                 <ImageBrush ImageSource="{Binding Img_poster}" Stretch="None" />
                             </DockPanel.Background>
                             <Canvas>
-                                <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                <Border Background="White" CornerRadius="13" Canvas.Top="5" Canvas.Left="5" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa5:SvgAwesome Margin="3" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                    </StackPanel>
+                                </Border>
                             </Canvas>
                             <TextBlock DockPanel.Dock="Bottom" Text="{Binding DisplayName}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
                                 <TextBlock.Background>

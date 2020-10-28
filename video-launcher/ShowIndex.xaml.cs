@@ -31,6 +31,7 @@ namespace video_launcher
         public List<string> CheckedGenres = new List<string>();
         public string WatchedFilter = "All";
         public string Sort = "Alphabetical";
+        public string AiringFilter = "All";
         public string SearchText = "";
         public string ShowType { get; set; }
 
@@ -45,6 +46,7 @@ namespace video_launcher
             Genres = (wnd.ShowType == "TV" ? wnd.TVGenres : wnd.AnimeGenres);
             WatchedFilter = wnd.WatchedFilter;
             Sort = wnd.Sort;
+            AiringFilter = wnd.AiringFilter;
             
 
             DataContext = this;
@@ -71,7 +73,6 @@ namespace video_launcher
                     {
                         if (CheckedGenres.All(x => show.Genres.Any(y => x == y)) && show.DisplayName.ToLower().Contains(SearchText.ToLower()))
                         {
-
                             if ((WatchedFilter == "Watched" && show.Watched == "true") || (WatchedFilter == "Unwatched" && show.Watched == "false") || (WatchedFilter == "In Progress" && show.Watched == "in-progress") || (WatchedFilter == "All"))
                             {
                                 filtered.Add(show);
@@ -89,6 +90,15 @@ namespace video_launcher
                         }
                     }
                 }
+
+                ObservableCollection<Show> filteredAiring = new ObservableCollection<Show>();
+                foreach (Show show in filtered) {
+                    if (AiringFilter == "All" || (AiringFilter == "Airing Now" && show.Airing == "airing") || (AiringFilter == "Waiting" && show.Airing == "on-hold") || (AiringFilter == "Completed" && (show.Airing == "completed" || show.Airing == null))) {
+                        filteredAiring.Add(show);
+                    }
+                }
+                filtered = filteredAiring;
+                
 
                 filtered = new ObservableCollection<Show>(filtered.OrderBy(x => x.DisplayName).ToList());
                 if (Sort == "Year")
@@ -254,6 +264,13 @@ namespace video_launcher
             NotifyPropertyChanged("FilteredShows");
         }
 
+        public void ClickAiringRadio(object sender, RoutedEventArgs e)
+        {
+            AiringFilter = (sender as RadioButton).Content.ToString();
+            wnd.AiringFilter = AiringFilter;
+            NotifyPropertyChanged("FilteredShows");
+        }
+
         public void ClickResetFilters(object sender, RoutedEventArgs e)
         {
             Genres = Genre.UncheckGenres(Genres);
@@ -264,6 +281,8 @@ namespace video_launcher
             rbAllWatched.IsChecked = true;
             Sort = "Alphabetical";
             rbAlphabetical.IsChecked = true;
+            AiringFilter = "All";
+            rbAllAiring.IsChecked = true;
             NotifyPropertyChanged("showGenres");
             NotifyPropertyChanged("FilteredShows");
         }

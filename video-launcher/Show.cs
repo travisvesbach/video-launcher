@@ -51,12 +51,14 @@ namespace video_launcher
         public string Watched { get; set; }
         public DateTime? LastWatched { get; set; }
         public string LastWatchedString { get; set; }
+        public string Airing { get; set; }
 
         public string DisplayName { get; set; }
 
 
         private ICommand _openTrailer;
         private ICommand _toggleWatched;
+        private ICommand _toggleAiring;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -286,6 +288,9 @@ namespace video_launcher
                         LastWatched = DateTime.Parse(node.InnerText);
                         LastWatchedString = LastWatched.Value.ToString("d");
                         break;
+                    case "airing":
+                        Airing = node.InnerText;
+                        break;
                 }
             }
         }
@@ -306,6 +311,8 @@ namespace video_launcher
             plotNode.InnerText = Plot;
             XmlNode iswatchedNode = tvshowNode.AppendChild(nfo.CreateElement("iswatched"));
             iswatchedNode.InnerText = Watched;
+            XmlNode airingNode = tvshowNode.AppendChild(nfo.CreateElement("airing"));
+            airingNode.InnerText = Airing;
 
             try
             {
@@ -397,6 +404,85 @@ namespace video_launcher
             }
         }
 
+        public string AiringToggleText
+        {
+            get
+            {
+                if (File_nfo == null)
+                {
+                    return "No nfo file";
+                }
+                if (Airing == "airing")
+                {
+                    return "Mark Waiting for new season";
+                }
+                else if (Airing == "on-hold")
+                {
+                    return "Mark Finished Airing";
+                }
+                else
+                {
+                    return "Mark Airing";
+                }
+            }
+        }
+
+        public string AiringIcon
+        {
+            get
+            {
+                if (Airing == "airing")
+                {
+                    return "Solid_Rss";
+                }
+                else if (Airing == "on-hold")
+                {
+                    return "Solid_CalendarAlt";
+                }
+                else
+                {
+                    return "Solid_CheckCircle";
+                }
+            }
+        }
+
+        public string AiringContextIcon
+        {
+            get
+            {
+                if (Airing == "airing")
+                {
+                    return "Solid_CalendarAlt";
+                }
+                else if (Airing == "on-hold")
+                {
+                    return "Solid_CheckCircle";
+                }
+                else
+                {
+                    return "Solid_Rss";
+                }
+            }
+        }
+
+        public string AiringButton
+        {
+            get
+            {
+                if (Airing == "airing")
+                {
+                    return "Airing";
+                }
+                else if (Airing == "on-hold")
+                {
+                    return "Waiting For New Season";
+                }
+                else
+                {
+                    return "Finished Airing";
+                }
+            }
+        }
 
         // commands
         public bool CanExecute
@@ -599,6 +685,62 @@ namespace video_launcher
             NotifyPropertyChanged("WatchedIcon");
             NotifyPropertyChanged("WatchedButton");
             NotifyPropertyChanged("WatchedContextIcon");
+        }
+
+        public ICommand CommandToggleAiring
+        {
+            get { return _toggleAiring ?? (_toggleAiring = new CommandHandler(() => ToggleAiring(), () => CanExecuteEditNFO)); }
+        }
+
+        public void ToggleAiring(string target = null)
+        {
+
+            if (target != null)
+            {
+                Airing = target;
+            } else
+            {
+                if (Airing == "airing")
+                {
+                    Airing = "on-hold";
+                }
+                else if (Airing == "on-hold")
+                {
+                    Airing = "completed";
+                }
+                else
+                {
+                    Airing = "airing";
+                }
+            }
+
+            // load nfo file
+            XmlDocument nfo = new XmlDocument();
+            try
+            {
+                nfo.Load(File_nfo);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            // create airing node if it doesn't exist; save new airing status
+            XmlNode nfoAiring = nfo.SelectSingleNode("//tvshow/airing");
+            if (nfoAiring == null)
+            {
+                nfoAiring = nfo.SelectSingleNode("//tvshow").AppendChild(nfo.CreateElement("airing"));
+            }
+            nfoAiring.InnerText = Airing;
+
+            nfo.Save(File_nfo);
+
+
+            NotifyPropertyChanged("Airing");
+            NotifyPropertyChanged("AiringToggleText");
+            NotifyPropertyChanged("AiringIcon");
+            NotifyPropertyChanged("AiringButton");
+            NotifyPropertyChanged("AiringContextIcon");
         }
 
         //static functions

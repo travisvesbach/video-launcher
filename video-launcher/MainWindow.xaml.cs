@@ -44,6 +44,7 @@ namespace video_launcher
 
         public string WatchedFilter = "All";
         public string Sort = "Alphabetical";
+        public string AiringFilter = "All";
 
         public event PropertyChangedEventHandler PropertyChanged;
 

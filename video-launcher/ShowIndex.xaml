@@ -12,6 +12,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
         <local:WatchedVisibilityConverter x:Key="WatchedToVisibilityConverter" />
+        <local:AiringVisibilityController x:Key="AiringToVisibilityConverter" />
 
         <Style TargetType="{x:Type Button}" x:Key="ShowButton">
             <Setter Property="Background" Value="Transparent"/>
@@ -97,7 +98,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}"/>
                 </Grid>
             </Button>
@@ -108,7 +109,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                     <TextBlock Name="tbRefresh" Grid.Column="1" Text="Reload" VerticalAlignment="Center" Foreground="{Binding Window.TextColor}"/>
                 </Grid>
             </Button>
@@ -124,6 +125,14 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="0,10,0,0">
                     <TextBox Name="tbSearch" TextChanged="SearchTextChanged" />
+                    <Expander Name="exAiring" Header="Airing" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
+                        <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
+                            <RadioButton GroupName="rbgAiring" Name="rbAllAiring" Click="ClickAiringRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgAiring" Name="rbAiring" Click="ClickAiringRadio" Content="Airing Now" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgAiring" Name="rbOnHold" Click="ClickAiringRadio" Content="Waiting" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                            <RadioButton GroupName="rbgAiring" Name="rbCompleted" Click="ClickAiringRadio" Content="Completed" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                        </ItemsControl>
+                    </Expander>
                     <Expander Name="exGenres" Header="Genres" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
                         <ItemsControl ItemsSource="{Binding ShowGenres}" Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
                             <ItemsControl.ItemTemplate>
@@ -180,6 +189,11 @@
                                         <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedContextIcon}" Visibility="{Binding File_nfo, Converter={StaticResource StringToVisibilityConverter}}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
+                                <MenuItem Command="{Binding CommandToggleAiring}" Header="{Binding AiringToggleText}">
+                                    <MenuItem.Icon>
+                                        <fa5:SvgAwesome Foreground="Green" Icon="{Binding AiringContextIcon}" Visibility="{Binding File_nfo, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </Button.ContextMenu>
                         <DockPanel Width="185" Height="278" LastChildFill="False" Margin="10">
@@ -187,7 +201,12 @@
                                 <ImageBrush ImageSource="{Binding Img_poster}" Stretch="Fill" />
                             </DockPanel.Background>
                             <Canvas>
-                                <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                <Border Background="White" CornerRadius="13" Canvas.Top="5" Canvas.Left="5" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa5:SvgAwesome Margin="3" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                        <fa5:SvgAwesome Margin="5" Foreground="Green" Icon="{Binding AiringIcon}" Height="20" Visibility="{Binding Airing, Converter={StaticResource AiringToVisibilityConverter}}" ToolTip="Watched"/>
+                                    </StackPanel>
+                                </Border>
                             </Canvas>
                             <TextBlock DockPanel.Dock="Bottom" Text="{Binding DisplayName}" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="24" Margin="0,0,0,10">
                                 <TextBlock.Background>

@@ -107,7 +107,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center">About</TextBlock>
                     </Grid>
                 </Button>
@@ -190,7 +190,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="10,0"/>
+                            <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
                             <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
                         </Grid>
                     </Button>

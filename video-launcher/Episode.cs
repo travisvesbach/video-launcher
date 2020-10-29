@@ -371,7 +371,7 @@ namespace video_launcher
 
             if (!fromParent)
             {
-                Parent.EpisodeWatched();
+                Parent.EpisodeWatched(this);
             }
 
             NotifyPropertyChanged("Watched");

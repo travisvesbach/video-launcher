@@ -8,52 +8,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="{Binding MovieData.DisplayName}" Foreground="White" x:Name="MovieDetailsPage">
-
-    <Page.Resources>
-        <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
-            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="15" Padding="10">
-                            <ContentPresenter VerticalAlignment="Center" Margin="10,0"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-    </Page.Resources>
-
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="{Binding MovieData.Thumb}" Stretch="UniformToFill" />
@@ -81,7 +35,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Backward" Style="{StaticResource ButtonIcon}"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center">Movies</TextBlock>
                     </Grid>
                 </Button>
@@ -92,7 +46,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="{Binding MovieData.WatchedIcon}" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <fa5:SvgAwesome Icon="{Binding MovieData.WatchedIcon}" Style="{StaticResource ButtonIcon}"/>
                         <TextBlock Grid.Column="1" Text="{Binding MovieData.WatchedButton}"/>
                     </Grid>
                 </Button>
@@ -155,7 +109,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Play"  Style="{StaticResource ButtonIcon}"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
                     </Grid>
                 </Button>
@@ -165,7 +119,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Tape" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Tape"  Style="{StaticResource ButtonIcon}"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center">Trailer</TextBlock>
                     </Grid>
                 </Button>

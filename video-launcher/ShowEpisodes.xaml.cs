@@ -59,6 +59,23 @@ namespace video_launcher
             get { return wnd; }
         }
 
+        protected void Page_LoadComplete(object sender, EventArgs e)
+        {
+            SetDefaultSeason();
+        }
+
+        public void SetDefaultSeason()
+        {
+            foreach (Button button in FindVisualChildren<Button>(SeasonsItems))
+            {
+                if (button.Tag != null && (int)button.Tag == CurrentSeason)
+                {
+                    button.Background = wnd.ButtonColor;
+                    break;
+                }
+            }
+        }
+
         private void ClickShowShow(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("ShowDetails.xaml", UriKind.Relative));
@@ -66,9 +83,19 @@ namespace video_launcher
 
         private void ClickSetSeason(object sender, RoutedEventArgs e)
         {
+            foreach (Button button in FindVisualChildren<Button>(SeasonsItems))
+            {
+                if (button.Tag != null && (int)button.Tag == CurrentSeason)
+                {
+                    button.ClearValue(Control.BackgroundProperty); ;
+                    break;
+                }
+            }
+
             Button btn = sender as Button;
             Season dataObject = btn.DataContext as Season;
             CurrentSeason = dataObject.Number;
+            btn.Background = wnd.ButtonColor;
             NotifyPropertyChanged("FilteredEpisodes");
         }
 
@@ -87,5 +114,24 @@ namespace video_launcher
             }
         }
 
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
     }
 }

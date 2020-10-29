@@ -7,50 +7,9 @@
       xmlns:fa5="http://schemas.fontawesome.com/icons/"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
+      Loaded="Page_LoadComplete"
       Title="{Binding ShowData.DisplayName}" Foreground="White" >
     <Page.Resources>
-        <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:WatchedVisibilityConverter x:Key="WatchedToVisibilityConverter" />
-
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
-            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="15" Padding="10">
-                            <ContentPresenter VerticalAlignment="Center" Margin="10,0"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         <Style TargetType="{x:Type Button}" x:Key="EpisodeButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -74,7 +33,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
     </Page.Resources>
     
     <Grid>
@@ -107,18 +65,25 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa5:SvgAwesome Icon="Solid_Backward" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                        <fa5:SvgAwesome Icon="Solid_Backward" Style="{StaticResource ButtonIcon}"/>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center">About</TextBlock>
                     </Grid>
                 </Button>
                 <TextBlock Grid.Column="1" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding ShowData.DisplayName}" />
             </Grid>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="20" Margin="10,0">
-                <ItemsControl ItemsSource="{Binding ShowData.Seasons}" Background="Transparent" BorderThickness="0">
+                <ItemsControl Name="SeasonsItems" ItemsSource="{Binding ShowData.Seasons}" Background="Transparent" BorderThickness="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Click="ClickSetSeason" Style="{StaticResource EpisodeButton}">
-                                <TextBlock FontSize="18" HorizontalAlignment="Center" Text="{Binding Name}"/>
+                            <Button Click="ClickSetSeason" Tag="{Binding Number}" Style="{StaticResource EpisodeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <fa5:SvgAwesome Foreground="Green" Height="20" Icon="{Binding WatchedIcon}" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" />
+                                    <TextBlock Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Text="{Binding Name}"/>
+                                </Grid>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -147,7 +112,7 @@
                                         <ColumnDefinition Width="40"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <fa5:SvgAwesome Canvas.Top="10" Canvas.Left="155" Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
+                                    <fa5:SvgAwesome Foreground="Green" Icon="{Binding WatchedIcon}" Height="20" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" ToolTip="Watched"/>
                                     <TextBlock Grid.Column="1" Text="{Binding EpisodeNumberString}" FontSize="18" TextAlignment="Left"/>
                                     <TextBlock Grid.Column="2" Text="{Binding DisplayName}" FontSize="18"/>
                                 </Grid>
@@ -190,7 +155,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <fa5:SvgAwesome Icon="Solid_Play" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                            <fa5:SvgAwesome Icon="Solid_Play" Style="{StaticResource ButtonIcon}"/>
                             <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
                         </Grid>
                     </Button>

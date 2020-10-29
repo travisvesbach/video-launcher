@@ -8,83 +8,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="MovieIndex" Foreground="White">
-
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
-        <local:WatchedVisibilityConverter x:Key="WatchedToVisibilityConverter" />
-        
-        <Style TargetType="{x:Type Button}" x:Key="MovieButton">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="15">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
-            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="15" Padding="10">
-                            <ContentPresenter VerticalAlignment="Center" Margin="10,0"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Page.Resources>
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
@@ -98,7 +21,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_Home" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_Home" Style="{StaticResource ButtonIcon}"/>
                     <TextBlock Grid.Column="1" Text="Home" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -109,7 +32,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Foreground="{Binding Window.TextColor}" Margin="0,0,10,0"/>
+                    <fa5:SvgAwesome Icon="Solid_CircleNotch" Style="{StaticResource ButtonIcon}"/>
                     <TextBlock Name="tbRefresh" Grid.Column="1" Text="Reload" VerticalAlignment="Center" />
                 </Grid>
             </Button>
@@ -125,27 +48,27 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="0,10,0,0">
                     <TextBox Name="tbSearch" TextChanged="SearchTextChanged" />
-                    <Expander Name="exGenres" Header="Genres" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
-                        <ItemsControl ItemsSource="{Binding MovieGenres}" Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
+                    <Expander Name="exGenres" Header="Genres">
+                        <ItemsControl ItemsSource="{Binding MovieGenres}" Style="{StaticResource FilterItemsControl}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center" />
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Name}" Click="ClickCheckBox"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Expander>
-                    <Expander Name="exWatched" Header="Watched" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
-                        <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
-                            <RadioButton GroupName="rbgWatched" Name="rbAllWatched" Click="ClickWatchedRadio" Content="All" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbgWatched" Name="rbUnwatched" Click="ClickWatchedRadio" Content="Unwatched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                    <Expander Name="exWatched" Header="Watched">
+                        <ItemsControl Style="{StaticResource FilterItemsControl}">
+                            <RadioButton GroupName="rbgWatched" Name="rbAllWatched" Click="ClickWatchedRadio" Content="All" IsChecked="True"/>
+                            <RadioButton GroupName="rbgWatched" Name="rbUnwatched" Click="ClickWatchedRadio" Content="Unwatched"/>
+                            <RadioButton GroupName="rbgWatched" Name="rbWatched" Click="ClickWatchedRadio" Content="Watched"/>
                         </ItemsControl>
                     </Expander>
-                    <Expander Name="exSort" Header="Sort" ExpandDirection="Down" IsExpanded="False" FontSize="22" Foreground="{Binding Window.TextColor}">
-                        <ItemsControl Background="Transparent" BorderThickness="0" Margin="10,0,0,0">
-                            <RadioButton GroupName="rbgSort" Name="rbAlphabetical" Click="ClickSortRadio" Content="Alphabetical" IsChecked="True" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbgSort" Name="rbLastWatched" Click="ClickSortRadio" Content="Last Watched" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
-                            <RadioButton GroupName="rbgSort" Name="rbYear" Click="ClickSortRadio" Content="Year" Foreground="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="18" VerticalContentAlignment="Center"/>
+                    <Expander Name="exSort" Header="Sort">
+                        <ItemsControl Style="{StaticResource FilterItemsControl}">
+                            <RadioButton GroupName="rbgSort" Name="rbAlphabetical" Click="ClickSortRadio" Content="Alphabetical" IsChecked="True"/>
+                            <RadioButton GroupName="rbgSort" Name="rbLastWatched" Click="ClickSortRadio" Content="Last Watched"/>
+                            <RadioButton GroupName="rbgSort" Name="rbYear" Click="ClickSortRadio" Content="Year"/>
                         </ItemsControl>
                     </Expander>
                     <Button Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
@@ -172,7 +95,7 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Click="ShowMovie" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource MovieButton}">
+                    <Button Click="ShowMovie" Margin="5" Foreground="White" BorderThickness="0" Style="{StaticResource PosterButton}">
                         <Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">

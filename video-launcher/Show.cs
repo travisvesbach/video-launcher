@@ -134,16 +134,15 @@ namespace video_launcher
             foreach (string subdirectory in subdirectoryEntries)
             {
                 DirectoryInfo dir = new DirectoryInfo(subdirectory);
+                Season season = new Season();
                 if (dir.Name.Contains("Season"))
                 {
                     seasonCounter++;
                     App.Current.Dispatcher.Invoke((Action)delegate
                     {
-                        Seasons.Add(new Season()
-                        {
-                            Name = "Season " + seasonCounter.ToString(),
-                            Number = seasonCounter
-                        });
+                        season.Name = "Season " + seasonCounter.ToString();
+                        season.Number = seasonCounter;
+                        season.Parent = this;
                     });
                     int seasonEpisodeCounter = 0;
                     string[] SeasonFiles = Directory.GetFiles(dir.FullName);
@@ -163,12 +162,10 @@ namespace video_launcher
                     Specials = true;
                     App.Current.Dispatcher.Invoke((Action)delegate
                     {
-                        Seasons.Add(new Season()
-                        {
-                            Name = "Specials",
-                            Number = 0,
-                            IsSpecial = true
-                        });
+                        season.Name = "Specials ";
+                        season.Number = 0;
+                        season.Parent = this;
+                        season.IsSpecial = true;
                     });
                     int specialEpisodeCounter = 0;
                     string[] SeasonFiles = Directory.GetFiles(dir.FullName);
@@ -183,6 +180,8 @@ namespace video_launcher
                         }
                     }
                 }
+                season.CheckIfWatched();
+                Seasons.Add(season);
             }
             SeasonCount = seasonCounter;
             SeasonCountString = seasonCounter.ToString();
@@ -582,6 +581,7 @@ namespace video_launcher
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += (obj, e) => ToggleEpisodesWatched();
+            worker.DoWork += (obj, e) => ToggleSeasonsWatched();
             worker.RunWorkerAsync();
 
             NotifyPropertyChanged("Watched");
@@ -607,9 +607,25 @@ namespace video_launcher
             }
         }
 
-        //called from episode when an episode watched status is changed
-        public void EpisodeWatched()
+        public void ToggleSeasonsWatched(string seasonNumber = null)
         {
+            foreach (Season season in Seasons)
+            {
+                if (season.Number.ToString() == seasonNumber)
+                {
+                    season.CheckIfWatched();
+                }
+                else if (seasonNumber == null)
+                {
+                    season.CheckIfWatched();
+                }
+            }
+        }
+
+        //called from episode when an episode watched status is changed
+        public void EpisodeWatched(Episode fromEpisode)
+        {
+            ToggleSeasonsWatched(fromEpisode.Season);
 
             int watchedCount = 0;
             foreach (Episode episode in Episodes)
@@ -619,8 +635,7 @@ namespace video_launcher
                     watchedCount++;
                 }
             }
-
-            Console.WriteLine("watched count: " + watchedCount.ToString() + "    episode count:" + EpisodeCount.ToString());
+            
 
             if (watchedCount == 0)
             {

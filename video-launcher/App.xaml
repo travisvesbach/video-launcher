@@ -6,7 +6,115 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <local:StringVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <local:WatchedVisibilityConverter x:Key="WatchedToVisibilityConverter" />
+        <local:AiringVisibilityController x:Key="AiringToVisibilityConverter" />
+
         <FontFamily x:Key="FontAwesome">/video_launcher;component/fonts/FontAwesome.otf#Font Awesome 5 Free Solid</FontFamily>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{Binding Window.ButtonColor}"/>
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15" Padding="10">
+                            <ContentPresenter VerticalAlignment="Center" Margin="10,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="PosterButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="{Binding Window.ButtonHoverColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type fa5:SvgAwesome}" x:Key="ButtonIcon">
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style TargetType="Expander">
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="ExpandDirection" Value="Down"/>
+            <Setter Property="IsExpanded" Value="False"/>
+        </Style>
+
+        <Style TargetType="ItemsControl" x:Key="FilterItemsControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+        </Style>
+        
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{Binding Window.TextColor, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{Binding Window.TextColor}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
 
     </Application.Resources>
 </Application>

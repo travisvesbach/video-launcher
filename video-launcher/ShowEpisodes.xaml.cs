@@ -101,8 +101,20 @@ namespace video_launcher
 
         private void ClickSetEpisode(object sender, RoutedEventArgs e)
         {
+            if (SelectedEpisode != null)
+            {
+                foreach (Button button in FindVisualChildren<Button>(EpisodeItems))
+                {
+                    if (button.Tag != null && (string)button.Tag == SelectedEpisode.EpisodeNumber)
+                    {
+                        button.ClearValue(Control.BackgroundProperty); ;
+                        break;
+                    }
+                }
+            }
             Button btn = sender as Button;
             SelectedEpisode = btn.DataContext as Episode;
+            btn.Background = wnd.ButtonColor;
             NotifyPropertyChanged("SelectedEpisode");
         }
 

@@ -76,24 +76,17 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Click="ClickSetSeason" Tag="{Binding Number}" Style="{StaticResource EpisodeButton}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <fa5:SvgAwesome Foreground="Green" Height="20" Icon="{Binding WatchedIcon}" Visibility="{Binding Watched, Converter={StaticResource WatchedToVisibilityConverter}}" />
-                                    <TextBlock Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Text="{Binding Name}"/>
-                                </Grid>
+                                <TextBlock Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Text="{Binding Name}"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
             <ScrollViewer Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto"  Margin="10,0">
-                <ItemsControl ItemsSource="{Binding FilteredEpisodes}" Background="Transparent" BorderThickness="0">
+                <ItemsControl Name="EpisodeItems" ItemsSource="{Binding FilteredEpisodes}" Background="Transparent" BorderThickness="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Click="ClickSetEpisode" Style="{StaticResource EpisodeButton}">
+                            <Button Click="ClickSetEpisode" Tag="{Binding EpisodeNumber}" Style="{StaticResource EpisodeButton}">
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="{Binding CommandToggleWatched}" Header="{Binding WatchedToggleText}">
@@ -148,7 +141,12 @@
                         <Run Text="{Binding SelectedEpisode.LastWatchedString}" />
                     </TextBlock>
                 </Grid>
-                <WrapPanel Grid.Row="4">
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
                     <Button Command="{Binding SelectedEpisode.CommandPlay}" >
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -159,7 +157,17 @@
                             <TextBlock Grid.Column="1" VerticalAlignment="Center">Play</TextBlock>
                         </Grid>
                     </Button>
-                </WrapPanel>
+                    <Button Grid.Column="2" Command="{Binding SelectedEpisode.CommandToggleWatched}" ToolTip="{Binding SelectedEpisode.WatchedToggleText}" Visibility="{Binding SelectedEpisode.File_nfo, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <fa5:SvgAwesome Icon="{Binding SelectedEpisode.WatchedIcon}" Style="{StaticResource ButtonIcon}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedEpisode.WatchedButton}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

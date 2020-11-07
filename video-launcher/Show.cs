@@ -471,7 +471,7 @@ namespace video_launcher
             {
                 if (Airing == "airing")
                 {
-                    return "Airing";
+                    return "Airing Now";
                 }
                 else if (Airing == "on-hold")
                 {

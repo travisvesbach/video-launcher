@@ -278,10 +278,13 @@ namespace video_launcher
             SearchText = "";
             tbSearch.Text = "";
             WatchedFilter = "All";
+            wnd.WatchedFilter = WatchedFilter;
             rbAllWatched.IsChecked = true;
             Sort = "Alphabetical";
+            wnd.Sort = Sort;
             rbAlphabetical.IsChecked = true;
             AiringFilter = "All";
+            wnd.AiringFilter = AiringFilter;
             rbAllAiring.IsChecked = true;
             NotifyPropertyChanged("showGenres");
             NotifyPropertyChanged("FilteredShows");

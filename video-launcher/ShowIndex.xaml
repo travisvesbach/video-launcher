@@ -37,7 +37,10 @@
                 </Grid>
             </Button>
         </Grid>
-        <Expander DockPanel.Dock="Left" Name="exFilters" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="{Binding Window.TextColor}" MaxWidth="200">
+        <Expander DockPanel.Dock="Left" Name="exFilters" Padding="0,10,0,0" Margin="-2,0,0,-1" ExpandDirection="Right" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="22" Foreground="{Binding Window.TextColor}" MaxWidth="200">
+            <Expander.Background>
+                <SolidColorBrush Color="Black" Opacity="0.45"/>
+            </Expander.Background>
             <Expander.Header>
                 <TextBlock Text="Filters">
                     <TextBlock.LayoutTransform>
@@ -45,8 +48,8 @@
                     </TextBlock.LayoutTransform>
                 </TextBlock>
             </Expander.Header>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="0,10,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,5,0">
+                <StackPanel Margin="0,0,0,0">
                     <TextBox Name="tbSearch" TextChanged="SearchTextChanged" />
                     <Expander Name="exAiring" Header="Airing">
                         <ItemsControl Style="{StaticResource FilterItemsControl}">
@@ -80,7 +83,7 @@
                             <RadioButton GroupName="rbgSort" Name="rbYear" Click="ClickSortRadio" Content="Year"/>
                         </ItemsControl>
                     </Expander>
-                    <Button Content="Reset Filters" Click="ClickResetFilters" HorizontalAlignment="Left"/>
+                    <Button Content="Reset" Click="ClickResetFilters" HorizontalAlignment="Left"/>
                 </StackPanel>
             </ScrollViewer>
         </Expander>
